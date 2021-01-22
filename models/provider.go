@@ -1,12 +1,11 @@
 package models
 
 import (
-	"encoding/json"
 	"log"
 )
 
-func GetDataByQuery(query string) ([]byte, error) {
-	data := []map[string]interface{}{}
+func GetDataByQuery(query string) ([]map[string][]byte, error) {
+	data := []map[string][]byte{}
 
 	rows, err := db.Query(query)
 	defer rows.Close()
@@ -26,7 +25,7 @@ func GetDataByQuery(query string) ([]byte, error) {
 	}
 
 	for rows.Next() {
-		myMap := map[string]interface{}{}
+		myMap := map[string][]byte{}
 
 		err = rows.Scan(colPtrs...)
 		if err != nil {
@@ -36,22 +35,40 @@ func GetDataByQuery(query string) ([]byte, error) {
 			if col == nil {
 				col = []byte("0")
 			}
-			myMap[colNames[i]] = BytesToString(col.([]byte))
+			myMap[colNames[i]] = col.([]byte)
 		}
 		data = append(data, myMap)
 	}
-	return json.Marshal(data)
+	return data, nil
 }
 
-func BytesToString(data []byte) string {
-	return string(data[:])
-}
-
-func ExecNonQuery(str string) error {
-	_, err := db.Exec(str)
+func ExecNonQuery(query string) error {
+	_, err := db.Exec(query)
 	if err != nil {
 		log.Println(err)
 		return err
 	}
+	return nil
+}
+
+func InsertIntoDB(data map[string]string, nameTable string) error {
+	query := "insert into " + nameTable
+	fields := "("
+	values := "values("
+	total := len(data)
+	for key, value := range data {
+		fields += key
+		values += value
+		total--
+		if total != 0 {
+			fields += ","
+			values += ","
+		}
+	}
+	fields += ") "
+	values += ")"
+	query = query + fields + values
+	log.Println("insert into db : ", query)
+	//return ExecNonQuery(query)
 	return nil
 }
