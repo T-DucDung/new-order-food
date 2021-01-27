@@ -16,7 +16,7 @@ var (
 
 func InitConnectDataBase() {
 	once.Do(func() {
-		db, err = sql.Open("mysql", "root:123@tcp(127.0.0.1:3306)/orderfood")
+		db, err = sql.Open("mysql", "root:123@tcp(127.0.0.1:3306)/neworderfood")
 		if err != nil {
 			log.Println("error connect database : ", err)
 		} else {
@@ -25,8 +25,4 @@ func InitConnectDataBase() {
 			log.Println("===================")
 		}
 	})
-}
-
-func GetDatabase() *sql.DB {
-	return db
 }

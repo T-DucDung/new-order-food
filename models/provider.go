@@ -41,34 +41,3 @@ func GetDataByQuery(query string) ([]map[string][]byte, error) {
 	}
 	return data, nil
 }
-
-func ExecNonQuery(query string) error {
-	_, err := db.Exec(query)
-	if err != nil {
-		log.Println(err)
-		return err
-	}
-	return nil
-}
-
-func InsertIntoDB(data map[string]string, nameTable string) error {
-	query := "insert into " + nameTable
-	fields := "("
-	values := "values("
-	total := len(data)
-	for key, value := range data {
-		fields += key
-		values += value
-		total--
-		if total != 0 {
-			fields += ","
-			values += ","
-		}
-	}
-	fields += ") "
-	values += ")"
-	query = query + fields + values
-	log.Println("insert into db : ", query)
-	//return ExecNonQuery(query)
-	return nil
-}

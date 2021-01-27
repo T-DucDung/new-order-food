@@ -1,0 +1,106 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "basePath": "/v1",
+    "paths": {
+        "/product/": {
+            "post": {
+                "tags": [
+                    "product"
+                ],
+                "summary": "Tạo mới sản phẩm",
+                "description": "Create Product",
+                "operationId": "ProductController.Create Product",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "product",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestCreateProduct"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "requests.RequestCreateProduct": {
+            "title": "RequestCreateProduct",
+            "type": "object",
+            "properties": {
+                "CategoryId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "Image": {
+                    "type": "string"
+                },
+                "IsSale": {
+                    "type": "boolean"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Price": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "Remaining": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "SalePrice": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "Sole": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Unit": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.Err": {
+            "title": "Err",
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "responses.ResponseBool": {
+            "title": "ResponseBool",
+            "type": "object",
+            "properties": {
+                "Error": {
+                    "$ref": "#/definitions/responses.Err"
+                }
+            }
+        }
+    }
+}

@@ -1,10 +1,11 @@
-# Binaries for programs and plugins
+# Binaries for programs and pluginsmodels.CreateProduct(/)
 *.exe
 *.exe~
 *.dll
 *.so
 *.dylib
 *.tpl
+*.tmp
 
 # Test binary, built with `go test -c`
 *.test
