@@ -43,3 +43,30 @@ func (this *ProductController) CreateProduct() {
 		Error: responses.NewErr(responses.Success),
 	}
 }
+
+//@Title Get Product
+//@Description Get Product
+//@Summary Lấy một sản phẩm
+// @Param pid query string true "product id"
+//@Success 200 {object} responses.ResponseSingle
+//@Failure 404 {object} responses.ResponseSingle
+//@router / [get]
+func (this *ProductController) GetProduct(){
+	defer this.ServeJSON()
+	pid := this.GetString("pid")
+	log.Println("product id : ", pid)
+	p, err := services.GetProduct(pid)
+	if err != nil {
+		log.Println("controllers/product_controller.go:60 ", err)
+		this.Data["json"] = responses.ResponseSingle{
+			Data : nil,
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+	this.Data["json"] = responses.ResponseSingle{
+		Data : p,
+		Error: responses.NewErr(responses.Success),
+	}
+}
+

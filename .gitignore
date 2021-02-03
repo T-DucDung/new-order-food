@@ -6,7 +6,7 @@
 *.dylib
 *.tpl
 *.tmp
-
+*.html
 # Test binary, built with `go test -c`
 *.test
 

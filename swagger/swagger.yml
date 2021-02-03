@@ -3,6 +3,25 @@ info: {}
 basePath: /v1
 paths:
   /product/:
+    get:
+      tags:
+      - product
+      summary: Lấy một sản phẩm
+      description: Get Product
+      operationId: ProductController.Get Product
+      parameters:
+      - in: query
+        name: pid
+        description: product id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseSingle'
+        "404":
+          description: '{object} responses.ResponseSingle'
     post:
       tags:
       - product
@@ -66,5 +85,14 @@ definitions:
     title: ResponseBool
     type: object
     properties:
+      Error:
+        $ref: '#/definitions/responses.Err'
+  responses.ResponseSingle:
+    title: ResponseSingle
+    type: object
+    properties:
+      Data:
+        additionalProperties:
+          type: string
       Error:
         $ref: '#/definitions/responses.Err'

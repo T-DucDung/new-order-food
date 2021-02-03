@@ -41,3 +41,4 @@ func GetDataByQuery(query string) ([]map[string][]byte, error) {
 	}
 	return data, nil
 }
+
