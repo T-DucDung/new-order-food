@@ -34,6 +34,36 @@
                     }
                 }
             },
+            "put": {
+                "tags": [
+                    "product"
+                ],
+                "summary": "sửa một sản phẩm",
+                "description": "Up Date Product",
+                "operationId": "ProductController.Up Date Product",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "product",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Product"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "product"
@@ -64,9 +94,107 @@
                     }
                 }
             }
+        },
+        "/product/list": {
+            "get": {
+                "tags": [
+                    "product"
+                ],
+                "summary": "Lấy một danh sách sản phẩm",
+                "description": "Get List Product",
+                "operationId": "ProductController.Get List Product",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "165.0xc0003f9650.false": {
+            "title": "false",
+            "type": "object"
+        },
+        "98.0xc0003f95c0.false": {
+            "title": "false",
+            "type": "object"
+        },
+        "models.Product": {
+            "title": "Product",
+            "type": "object",
+            "properties": {
+                "CategoryId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Description": {
+                    "type": "string"
+                },
+                "Id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Image": {
+                    "type": "string"
+                },
+                "IsSale": {
+                    "type": "boolean"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Price": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "Rate1": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Rate2": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Rate3": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Rate4": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Rate5": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "RateAvg": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "Remaining": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "SalePrice": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "Sold": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Unit": {
+                    "type": "string"
+                }
+            }
+        },
         "requests.RequestCreateProduct": {
             "title": "RequestCreateProduct",
             "type": "object",
@@ -99,7 +227,7 @@
                     "type": "number",
                     "format": "float"
                 },
-                "Sole": {
+                "Sold": {
                     "type": "integer",
                     "format": "int64"
                 },
@@ -121,6 +249,22 @@
                 }
             }
         },
+        "responses.ResponseArray": {
+            "title": "ResponseArray",
+            "type": "object",
+            "properties": {
+                "Data": {
+                    "$ref": "#/definitions/165.0xc0003f9650.false"
+                },
+                "Error": {
+                    "$ref": "#/definitions/responses.Err"
+                },
+                "TotalCount": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
         "responses.ResponseBool": {
             "title": "ResponseBool",
             "type": "object",
@@ -135,9 +279,7 @@
             "type": "object",
             "properties": {
                 "Data": {
-                    "additionalProperties": {
-                        "type": "string"
-                    }
+                    "$ref": "#/definitions/98.0xc0003f95c0.false"
                 },
                 "Error": {
                     "$ref": "#/definitions/responses.Err"

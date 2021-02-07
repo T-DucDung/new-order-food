@@ -5,6 +5,12 @@ type ResponseBool struct {
 }
 
 type ResponseSingle struct {
-	Data map[string]string
+	Data  interface{}
 	Error *Err
+}
+
+type ResponseArray struct {
+	Data       interface{}
+	TotalCount int
+	Error      *Err
 }

@@ -1,6 +1,7 @@
-package requests
+package responses
 
-type RequestCreateProduct struct {
+type ProductRes struct {
+	Id          int
 	Name        string
 	Image       string
 	Price       float32
@@ -11,4 +12,5 @@ type RequestCreateProduct struct {
 	Description string
 	Sold        int
 	CategoryId  int
+	RateAvg     float32
 }
