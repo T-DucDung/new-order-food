@@ -46,10 +46,10 @@ func (this *Product) GetProduct(id string) (responses.ProductRes, error) {
 	return p, nil
 }
 
-func (this *Product) GetListProduct() ([]responses.ProductRes, error) {
+func (this *Product) GetListProduct(query string) ([]responses.ProductRes, error) {
 	lp := []responses.ProductRes{}
 
-	results, err := db.Query(queries.GetListProduct())
+	results, err := db.Query(query)
 	if err != nil {
 		return nil, err
 	}

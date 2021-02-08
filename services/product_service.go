@@ -2,6 +2,7 @@ package services
 
 import (
 	"new-order-food/models"
+	"new-order-food/queries"
 	"new-order-food/requests"
 	"new-order-food/responses"
 )
@@ -33,9 +34,12 @@ func GetProduct(id string) (responses.ProductRes, error) {
 	return p.GetProduct(id)
 }
 
-func GetListProduct() ([]responses.ProductRes, error) {
+func GetListProduct(cateid string) ([]responses.ProductRes, error) {
 	p := models.Product{}
-	return p.GetListProduct()
+	if cateid != "" {
+		return p.GetListProduct(queries.GetListProductByCate(cateid))
+	}
+	return p.GetListProduct(queries.GetListProduct())
 }
 
 func UpDateProduct(p models.Product) error {

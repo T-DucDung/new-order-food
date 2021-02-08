@@ -69,6 +69,11 @@ paths:
       summary: Lấy một danh sách sản phẩm
       description: Get List Product
       operationId: ProductController.Get List Product
+      parameters:
+      - in: query
+        name: cateid
+        description: cate id
+        type: string
       responses:
         "200":
           description: ""
@@ -77,10 +82,10 @@ paths:
         "404":
           description: '{object} responses.ResponseArray'
 definitions:
-  98.0xc0003f95c0.false:
+  98.0xc0003ffef0.false:
     title: "false"
     type: object
-  165.0xc0003f9650.false:
+  165.0xc0003fff80.false:
     title: "false"
     type: object
   models.Product:
@@ -176,7 +181,7 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/165.0xc0003f9650.false'
+        $ref: '#/definitions/165.0xc0003fff80.false'
       Error:
         $ref: '#/definitions/responses.Err'
       TotalCount:
@@ -193,6 +198,6 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/98.0xc0003f95c0.false'
+        $ref: '#/definitions/98.0xc0003ffef0.false'
       Error:
         $ref: '#/definitions/responses.Err'

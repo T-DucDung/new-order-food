@@ -74,12 +74,15 @@ func (this *ProductController) GetProduct() {
 //@Title Get List Product
 //@Description Get List Product
 //@Summary Lấy một danh sách sản phẩm
+// @Param cateid query string false "cate id"
 //@Success 200 {object} responses.ResponseArray
 //@Failure 404 {object} responses.ResponseArray
 //@router /list [get]
 func (this *ProductController) GetListProduct() {
 	defer this.ServeJSON()
-	lp, err := services.GetListProduct()
+	cateid := this.GetString("cateid")
+	log.Println("cate id : ", cateid)
+	lp, err := services.GetListProduct(cateid)
 	if err != nil {
 		log.Println("controllers/product_controller.go:83 ", err)
 		this.Data["json"] = responses.ResponseArray{
