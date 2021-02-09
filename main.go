@@ -2,6 +2,7 @@ package main
 
 import (
 	"new-order-food/models"
+	"new-order-food/redis"
 	_ "new-order-food/routers"
 
 	"github.com/astaxie/beego"
@@ -14,6 +15,7 @@ func main() {
 	beego.BConfig.WebConfig.StaticDir["/v1/swagger"] = "swagger"
 
 	models.InitConnectDataBase()
+	redis.InitRedisClient()
 
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
 		AllowAllOrigins:  true,
