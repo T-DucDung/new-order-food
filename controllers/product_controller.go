@@ -99,8 +99,8 @@ func (this *ProductController) GetListProduct() {
 	}
 }
 
-//@Title Up Date Product
-//@Description Up Date Product
+//@Title Update Product
+//@Description Update Product
 //@Summary sửa một sản phẩm
 // @Param data body models.Product true "product"
 //@Success 200 {object} responses.ResponseSingle

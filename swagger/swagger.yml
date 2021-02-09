@@ -2,6 +2,61 @@ swagger: "2.0"
 info: {}
 basePath: /v1
 paths:
+  /category/:
+    get:
+      tags:
+      - category
+      summary: Lấy danh sách loại sản phẩm
+      description: Get List Category
+      operationId: CategoryController.Get List Category
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseArray'
+        "404":
+          description: '{object} responses.ResponseArray'
+    put:
+      tags:
+      - category
+      summary: sửa một loại sản phẩm
+      description: Update Category
+      operationId: CategoryController.Update Category
+      parameters:
+      - in: body
+        name: data
+        description: category
+        required: true
+        schema:
+          $ref: '#/definitions/models.Category'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseSingle'
+        "404":
+          description: '{object} responses.ResponseSingle'
+    post:
+      tags:
+      - category
+      summary: Tạo một loại sản phẩm
+      description: Create Category
+      operationId: CategoryController.Create Category
+      parameters:
+      - in: body
+        name: name
+        description: name categorry
+        required: true
+        schema:
+          type: string
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseBool'
+        "404":
+          description: '{object} responses.ResponseBool'
   /product/:
     get:
       tags:
@@ -26,8 +81,8 @@ paths:
       tags:
       - product
       summary: sửa một sản phẩm
-      description: Up Date Product
-      operationId: ProductController.Up Date Product
+      description: Update Product
+      operationId: ProductController.Update Product
       parameters:
       - in: body
         name: data
@@ -82,12 +137,21 @@ paths:
         "404":
           description: '{object} responses.ResponseArray'
 definitions:
-  98.0xc0003ffef0.false:
+  171.0xc0004db170.false:
     title: "false"
     type: object
-  165.0xc0003fff80.false:
+  238.0xc0004db200.false:
     title: "false"
     type: object
+  models.Category:
+    title: Category
+    type: object
+    properties:
+      CategoryId:
+        type: integer
+        format: int64
+      Name:
+        type: string
   models.Product:
     title: Product
     type: object
@@ -181,7 +245,7 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/165.0xc0003fff80.false'
+        $ref: '#/definitions/238.0xc0004db200.false'
       Error:
         $ref: '#/definitions/responses.Err'
       TotalCount:
@@ -198,6 +262,6 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/98.0xc0003ffef0.false'
+        $ref: '#/definitions/171.0xc0004db170.false'
       Error:
         $ref: '#/definitions/responses.Err'
