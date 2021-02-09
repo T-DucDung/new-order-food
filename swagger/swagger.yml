@@ -137,10 +137,10 @@ paths:
         "404":
           description: '{object} responses.ResponseArray'
 definitions:
-  171.0xc0004db170.false:
+  171.0xc00053c5d0.false:
     title: "false"
     type: object
-  238.0xc0004db200.false:
+  238.0xc00053c660.false:
     title: "false"
     type: object
   models.Category:
@@ -245,7 +245,7 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/238.0xc0004db200.false'
+        $ref: '#/definitions/238.0xc00053c660.false'
       Error:
         $ref: '#/definitions/responses.Err'
       TotalCount:
@@ -262,6 +262,6 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/171.0xc0004db170.false'
+        $ref: '#/definitions/171.0xc00053c5d0.false'
       Error:
         $ref: '#/definitions/responses.Err'
