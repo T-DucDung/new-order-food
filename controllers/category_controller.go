@@ -41,16 +41,25 @@ func (this *CategoryController) GetListCategory() {
 //@Title Update Category
 //@Description Update Category
 //@Summary sửa một loại sản phẩm
+// @Params token header string true "Token"
 // @Param data body models.Category true "category"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
-//@router / [put]
+//@router /admin [put]
 func (this *CategoryController) UpDateCategory()  {
 	defer this.ServeJSON()
+	idtype := this.Ctx.Request.Header.Get("type")
+	if idtype != "admin" {
+		log.Println("controllers/category_controller.go:53, typeid is not admin ")
+		this.Data["json"] = responses.ResponseBool{
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
 	cate := models.Category{}
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &cate)
 	if err != nil {
-		log.Println("controllers/category_controller.go:53 ", err)
+		log.Println("controllers/category_controller.go:62 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -58,7 +67,7 @@ func (this *CategoryController) UpDateCategory()  {
 	}
 	err = services.UpdateCategory(cate)
 	if err != nil {
-		log.Println("controllers/category_controller.go:61 ", err)
+		log.Println("controllers/category_controller.go:70 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -72,17 +81,26 @@ func (this *CategoryController) UpDateCategory()  {
 //@Title Create Category
 //@Description Create Category
 //@Summary Tạo một loại sản phẩm
+// @Params token header string true "Token"
 // @Param name body string true "name categorry"
 //@Success 200 {object} responses.ResponseBool
 //@Failure 404 {object} responses.ResponseBool
-//@router / [post]
+//@router /admin [post]
 func (this *CategoryController) CreateCategory() {
 	defer this.ServeJSON()
+	idtype := this.Ctx.Request.Header.Get("type")
+	if idtype != "admin" {
+		log.Println("controllers/category_controller.go:93, typeid is not admin ")
+		this.Data["json"] = responses.ResponseBool{
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
 	var nameCate string
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &nameCate)
 	log.Println("nameCate ", nameCate)
 	if err != nil {
-		log.Println("controllers/category_controller.go:85 ", err)
+		log.Println("controllers/category_controller.go:103 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -90,7 +108,7 @@ func (this *CategoryController) CreateCategory() {
 	}
 	err = services.CreateCategory(nameCate)
 	if err != nil {
-		log.Println("controllers/category_controller.go:93 ", err)
+		log.Println("controllers/category_controller.go:111 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}

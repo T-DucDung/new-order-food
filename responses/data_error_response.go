@@ -15,6 +15,8 @@ var (
 	}
 )
 
+var UnAuthResponse = ResponseSingle{Data: "UnAuthenticated", Error: &Err{Code: 405, Message: "UnAuthenticated"}}
+
 type Err struct {
 	Code    int64  `json:"code"`
 	Message string `json:"message"`

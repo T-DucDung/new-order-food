@@ -1,8 +1,8 @@
 package main
 
 import (
+	"new-order-food/middleware"
 	"new-order-food/models"
-	"new-order-food/redis"
 	_ "new-order-food/routers"
 
 	"github.com/astaxie/beego"
@@ -15,7 +15,7 @@ func main() {
 	beego.BConfig.WebConfig.StaticDir["/v1/swagger"] = "swagger"
 
 	models.InitConnectDataBase()
-	redis.InitRedisClient()
+	models.InitRedisClient()
 
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
 		AllowAllOrigins:  true,
@@ -33,7 +33,7 @@ func main() {
 	// beego.InsertFilter("/v1/store/comment", beego.BeforeRouter, middlewares.Jwt)
 	// beego.InsertFilter("/v1/store/rate", beego.BeforeRouter, middlewares.Jwt)
 
-	// beego.InsertFilter("*", beego.BeforeRouter)
+	beego.InsertFilter("/v1/category/admin/*", beego.BeforeRouter, middleware.Token)
 
 	beego.Run()
 }

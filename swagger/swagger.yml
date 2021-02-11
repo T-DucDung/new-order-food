@@ -2,6 +2,27 @@ swagger: "2.0"
 info: {}
 basePath: /v1
 paths:
+  /account/:
+    post:
+      tags:
+      - account
+      summary: đăng nhập
+      description: Login
+      operationId: AccountController.Login
+      parameters:
+      - in: body
+        name: data
+        description: login
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RequestLogin'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseSingle'
+        "404":
+          description: '{object} responses.ResponseSingle'
   /category/:
     get:
       tags:
@@ -16,6 +37,7 @@ paths:
             $ref: '#/definitions/responses.ResponseArray'
         "404":
           description: '{object} responses.ResponseArray'
+  /category/admin:
     put:
       tags:
       - category
@@ -23,6 +45,11 @@ paths:
       description: Update Category
       operationId: CategoryController.Update Category
       parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
       - in: body
         name: data
         description: category
@@ -43,6 +70,11 @@ paths:
       description: Create Category
       operationId: CategoryController.Create Category
       parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
       - in: body
         name: name
         description: name categorry
@@ -84,6 +116,11 @@ paths:
       description: Update Product
       operationId: ProductController.Update Product
       parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
       - in: body
         name: data
         description: product
@@ -104,6 +141,11 @@ paths:
       description: Create Product
       operationId: ProductController.Create Product
       parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
       - in: body
         name: data
         description: product
@@ -137,10 +179,10 @@ paths:
         "404":
           description: '{object} responses.ResponseArray'
 definitions:
-  171.0xc00053c5d0.false:
+  171.0xc000580240.false:
     title: "false"
     type: object
-  238.0xc00053c660.false:
+  238.0xc0005802d0.false:
     title: "false"
     type: object
   models.Category:
@@ -231,6 +273,14 @@ definitions:
         format: int64
       Unit:
         type: string
+  requests.RequestLogin:
+    title: RequestLogin
+    type: object
+    properties:
+      Pass:
+        type: string
+      Username:
+        type: string
   responses.Err:
     title: Err
     type: object
@@ -245,7 +295,7 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/238.0xc00053c660.false'
+        $ref: '#/definitions/238.0xc0005802d0.false'
       Error:
         $ref: '#/definitions/responses.Err'
       TotalCount:
@@ -262,6 +312,6 @@ definitions:
     type: object
     properties:
       Data:
-        $ref: '#/definitions/171.0xc00053c5d0.false'
+        $ref: '#/definitions/171.0xc000580240.false'
       Error:
         $ref: '#/definitions/responses.Err'

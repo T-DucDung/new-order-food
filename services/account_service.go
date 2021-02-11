@@ -1,0 +1,11 @@
+package services
+
+import (
+	"new-order-food/models"
+	"new-order-food/requests"
+)
+
+func Login(req requests.RequestLogin) (string, error) {
+	acc := models.Account{}
+	return acc.Login(req)
+}

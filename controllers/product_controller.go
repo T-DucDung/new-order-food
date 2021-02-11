@@ -17,16 +17,25 @@ type ProductController struct {
 //@Title Create Product
 //@Description Create Product
 //@Summary Tạo mới sản phẩm
+// @Params token header string true "Token"
 // @Param data body requests.RequestCreateProduct true "product"
 //@Success 200 {object} responses.ResponseBool
 //@Failure 404 {object} responses.ResponseBool
 //@router / [post]
 func (this *ProductController) CreateProduct() {
 	defer this.ServeJSON()
+	idtype := this.Ctx.Request.Header.Get("type")
+	if idtype != "admin" {
+		log.Println("controllers/product_controller.go:29 , typeid is not admin ")
+		this.Data["json"] = responses.ResponseBool{
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
 	product := requests.RequestCreateProduct{}
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &product)
 	if err != nil {
-		log.Println("controllers/product_controller.go:26 ", err)
+		log.Println("controllers/product_controller.go:38 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -34,7 +43,7 @@ func (this *ProductController) CreateProduct() {
 	}
 	err = services.CreateProduct(product)
 	if err != nil {
-		log.Println("controllers/product_controller.go:36 ", err)
+		log.Println("controllers/product_controller.go:46 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -58,7 +67,7 @@ func (this *ProductController) GetProduct() {
 	log.Println("product id : ", pid)
 	p, err := services.GetProduct(pid)
 	if err != nil {
-		log.Println("controllers/product_controller.go:60 ", err)
+		log.Println("controllers/product_controller.go:70 ", err)
 		this.Data["json"] = responses.ResponseSingle{
 			Data:  nil,
 			Error: responses.NewErr(responses.UnSuccess),
@@ -84,7 +93,7 @@ func (this *ProductController) GetListProduct() {
 	log.Println("cate id : ", cateid)
 	lp, err := services.GetListProduct(cateid)
 	if err != nil {
-		log.Println("controllers/product_controller.go:83 ", err)
+		log.Println("controllers/product_controller.go:96 ", err)
 		this.Data["json"] = responses.ResponseArray{
 			Data:       nil,
 			TotalCount: 0,
@@ -102,16 +111,25 @@ func (this *ProductController) GetListProduct() {
 //@Title Update Product
 //@Description Update Product
 //@Summary sửa một sản phẩm
+// @Params token header string true "Token"
 // @Param data body models.Product true "product"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
 //@router / [put]
 func (this *ProductController) UpDateProduct()  {
 	defer this.ServeJSON()
+	idtype := this.Ctx.Request.Header.Get("type")
+	if idtype != "admin" {
+		log.Println("controllers/product_controller.go:123 , typeid is not admin ")
+		this.Data["json"] = responses.ResponseBool{
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
 	product := models.Product{}
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &product)
 	if err != nil {
-		log.Println("controllers/product_controller.go:112 ", err)
+		log.Println("controllers/product_controller.go:132 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -119,7 +137,7 @@ func (this *ProductController) UpDateProduct()  {
 	}
 	err = services.UpDateProduct(product)
 	if err != nil {
-		log.Println("controllers/product_controller.go:119 ", err)
+		log.Println("controllers/product_controller.go:140 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}

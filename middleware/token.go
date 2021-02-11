@@ -2,7 +2,9 @@ package middleware
 
 import (
 	"net/http"
-	"new-order-food/redis"
+	"new-order-food/models"
+	"new-order-food/responses"
+	"strings"
 
 	"github.com/astaxie/beego/context"
 )
@@ -10,26 +12,25 @@ import (
 var Token = func(ctx *context.Context) {
 	token := ctx.Request.Header["Token"]
 	if len(token) < 1 {
-		//Trả về lỗi token ở đây
-		//ctx.Output.JSON(responses.UnAuthResponse, true, true)
+		ctx.Output.JSON(responses.UnAuthResponse, true, true)
 		ctx.ResponseWriter.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-	val, err := ParseToken(token[0])
+	str, err := ParseToken(token[0])
 	if err != nil {
-		//Trả về lỗi token ở đây
-		//ctx.Output.JSON(responses.UnAuthResponse, true, true)
+		ctx.Output.JSON(responses.UnAuthResponse, true, true)
 		ctx.ResponseWriter.WriteHeader(http.StatusUnauthorized)
 		return
 	}
-
-	//Xử lý value
+	val := strings.Split(str, ":")
+	ctx.Request.Header.Set("id", val[0])
+	ctx.Request.Header.Set("type", val[1])
 }
 
-func ParseToken(token string) (interface{}, error) {
-	val, err := redis.Client.Get(token)
+func ParseToken(token string) (string, error) {
+	val, err := models.Get(token)
 	if err != nil {
-		return nil, err
+		return "", err
 	}
 	return val, nil
 }

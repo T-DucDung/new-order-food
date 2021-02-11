@@ -5,6 +5,38 @@
     },
     "basePath": "/v1",
     "paths": {
+        "/account/": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "đăng nhập",
+                "description": "Login",
+                "operationId": "AccountController.Login",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "login",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestLogin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
         "/category/": {
             "get": {
                 "tags": [
@@ -24,7 +56,9 @@
                         "description": "{object} responses.ResponseArray"
                     }
                 }
-            },
+            }
+        },
+        "/category/admin": {
             "put": {
                 "tags": [
                     "category"
@@ -33,6 +67,13 @@
                 "description": "Update Category",
                 "operationId": "CategoryController.Update Category",
                 "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "in": "body",
                         "name": "data",
@@ -63,6 +104,13 @@
                 "description": "Create Category",
                 "operationId": "CategoryController.Create Category",
                 "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "in": "body",
                         "name": "name",
@@ -125,6 +173,13 @@
                 "operationId": "ProductController.Update Product",
                 "parameters": [
                     {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
                         "in": "body",
                         "name": "data",
                         "description": "product",
@@ -154,6 +209,13 @@
                 "description": "Create Product",
                 "operationId": "ProductController.Create Product",
                 "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
                     {
                         "in": "body",
                         "name": "data",
@@ -208,11 +270,11 @@
         }
     },
     "definitions": {
-        "171.0xc00053c5d0.false": {
+        "171.0xc000580240.false": {
             "title": "false",
             "type": "object"
         },
-        "238.0xc00053c660.false": {
+        "238.0xc0005802d0.false": {
             "title": "false",
             "type": "object"
         },
@@ -339,6 +401,18 @@
                 }
             }
         },
+        "requests.RequestLogin": {
+            "title": "RequestLogin",
+            "type": "object",
+            "properties": {
+                "Pass": {
+                    "type": "string"
+                },
+                "Username": {
+                    "type": "string"
+                }
+            }
+        },
         "responses.Err": {
             "title": "Err",
             "type": "object",
@@ -357,7 +431,7 @@
             "type": "object",
             "properties": {
                 "Data": {
-                    "$ref": "#/definitions/238.0xc00053c660.false"
+                    "$ref": "#/definitions/238.0xc0005802d0.false"
                 },
                 "Error": {
                     "$ref": "#/definitions/responses.Err"
@@ -382,7 +456,7 @@
             "type": "object",
             "properties": {
                 "Data": {
-                    "$ref": "#/definitions/171.0xc00053c5d0.false"
+                    "$ref": "#/definitions/171.0xc000580240.false"
                 },
                 "Error": {
                     "$ref": "#/definitions/responses.Err"
