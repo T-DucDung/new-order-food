@@ -21,7 +21,7 @@ type ProductController struct {
 // @Param data body requests.RequestCreateProduct true "product"
 //@Success 200 {object} responses.ResponseBool
 //@Failure 404 {object} responses.ResponseBool
-//@router / [post]
+//@router /auth [post]
 func (this *ProductController) CreateProduct() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")
@@ -115,7 +115,7 @@ func (this *ProductController) GetListProduct() {
 // @Param data body models.Product true "product"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
-//@router / [put]
+//@router /auth [put]
 func (this *ProductController) UpDateProduct()  {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")

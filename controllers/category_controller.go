@@ -45,7 +45,7 @@ func (this *CategoryController) GetListCategory() {
 // @Param data body models.Category true "category"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
-//@router /admin [put]
+//@router /auth [put]
 func (this *CategoryController) UpDateCategory()  {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")
@@ -85,7 +85,7 @@ func (this *CategoryController) UpDateCategory()  {
 // @Param name body string true "name categorry"
 //@Success 200 {object} responses.ResponseBool
 //@Failure 404 {object} responses.ResponseBool
-//@router /admin [post]
+//@router /auth [post]
 func (this *CategoryController) CreateCategory() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")

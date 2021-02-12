@@ -37,6 +37,77 @@
                 }
             }
         },
+        "/account/auth": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Tạo mới tài khoản",
+                "description": "Register For Admin",
+                "operationId": "AccountController.Register For Admin",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "req",
+                        "description": "req",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestRegisterForAdmin"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
+        "/account/register": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Tạo mới tài khoản",
+                "description": "Register",
+                "operationId": "AccountController.Register",
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "req",
+                        "description": "req",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestRegister"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
         "/category/": {
             "get": {
                 "tags": [
@@ -58,7 +129,7 @@
                 }
             }
         },
-        "/category/admin": {
+        "/category/auth": {
             "put": {
                 "tags": [
                     "category"
@@ -163,7 +234,9 @@
                         "description": "{object} responses.ResponseSingle"
                     }
                 }
-            },
+            }
+        },
+        "/product/auth": {
             "put": {
                 "tags": [
                     "product"
@@ -270,11 +343,11 @@
         }
     },
     "definitions": {
-        "171.0xc000580240.false": {
+        "171.0xc00056ac00.false": {
             "title": "false",
             "type": "object"
         },
-        "238.0xc0005802d0.false": {
+        "238.0xc00056ac90.false": {
             "title": "false",
             "type": "object"
         },
@@ -413,6 +486,63 @@
                 }
             }
         },
+        "requests.RequestRegister": {
+            "title": "RequestRegister",
+            "type": "object",
+            "properties": {
+                "Email": {
+                    "type": "string"
+                },
+                "Gender": {
+                    "type": "string"
+                },
+                "Image": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Pass": {
+                    "type": "string"
+                },
+                "Phone": {
+                    "type": "string"
+                },
+                "Username": {
+                    "type": "string"
+                }
+            }
+        },
+        "requests.RequestRegisterForAdmin": {
+            "title": "RequestRegisterForAdmin",
+            "type": "object",
+            "properties": {
+                "Email": {
+                    "type": "string"
+                },
+                "Gender": {
+                    "type": "string"
+                },
+                "Image": {
+                    "type": "string"
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Pass": {
+                    "type": "string"
+                },
+                "Phone": {
+                    "type": "string"
+                },
+                "Type": {
+                    "type": "string"
+                },
+                "Username": {
+                    "type": "string"
+                }
+            }
+        },
         "responses.Err": {
             "title": "Err",
             "type": "object",
@@ -431,7 +561,7 @@
             "type": "object",
             "properties": {
                 "Data": {
-                    "$ref": "#/definitions/238.0xc0005802d0.false"
+                    "$ref": "#/definitions/238.0xc00056ac90.false"
                 },
                 "Error": {
                     "$ref": "#/definitions/responses.Err"
@@ -456,7 +586,7 @@
             "type": "object",
             "properties": {
                 "Data": {
-                    "$ref": "#/definitions/171.0xc000580240.false"
+                    "$ref": "#/definitions/171.0xc00056ac00.false"
                 },
                 "Error": {
                     "$ref": "#/definitions/responses.Err"
