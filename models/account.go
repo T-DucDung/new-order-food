@@ -11,10 +11,10 @@ import (
 )
 
 type Account struct {
-	Username string
-	Pass     string
-	Id       int
-	Type     string
+	Username string `json:"username" xml:"username"`
+	Pass     string `json:"pass" xml:"pass"`
+	Id       int    `json:"id" xml:"id"`
+	Type     string `json:"type" xml:"type"`
 }
 
 func (this *Account) Login(req requests.RequestLogin) (string, error) {

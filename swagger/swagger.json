@@ -343,11 +343,11 @@
         }
     },
     "definitions": {
-        "171.0xc00056ac00.false": {
+        "253.0xc0004d22a0.false": {
             "title": "false",
             "type": "object"
         },
-        "238.0xc00056ac90.false": {
+        "379.0xc0004d2330.false": {
             "title": "false",
             "type": "object"
         },
@@ -355,11 +355,11 @@
             "title": "Category",
             "type": "object",
             "properties": {
-                "CategoryId": {
+                "category_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Name": {
+                "name": {
                     "type": "string"
                 }
             }
@@ -368,67 +368,67 @@
             "title": "Product",
             "type": "object",
             "properties": {
-                "CategoryId": {
+                "category_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Description": {
+                "description": {
                     "type": "string"
                 },
-                "Id": {
+                "id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Image": {
+                "image": {
                     "type": "string"
                 },
-                "IsSale": {
+                "is_sale": {
                     "type": "boolean"
                 },
-                "Name": {
+                "name": {
                     "type": "string"
                 },
-                "Price": {
+                "price": {
                     "type": "number",
                     "format": "float"
                 },
-                "Rate1": {
+                "rate1": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Rate2": {
+                "rate2": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Rate3": {
+                "rate3": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Rate4": {
+                "rate4": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Rate5": {
+                "rate5": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "RateAvg": {
+                "rate_avg": {
                     "type": "number",
                     "format": "float"
                 },
-                "Remaining": {
+                "remaining": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "SalePrice": {
+                "sale_price": {
                     "type": "number",
                     "format": "float"
                 },
-                "Sold": {
+                "sold": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "Unit": {
+                "unit": {
                     "type": "string"
                 }
             }
@@ -560,13 +560,13 @@
             "title": "ResponseArray",
             "type": "object",
             "properties": {
-                "Data": {
-                    "$ref": "#/definitions/238.0xc00056ac90.false"
+                "data": {
+                    "$ref": "#/definitions/379.0xc0004d2330.false"
                 },
-                "Error": {
+                "error": {
                     "$ref": "#/definitions/responses.Err"
                 },
-                "TotalCount": {
+                "total_count": {
                     "type": "integer",
                     "format": "int64"
                 }
@@ -576,7 +576,7 @@
             "title": "ResponseBool",
             "type": "object",
             "properties": {
-                "Error": {
+                "error": {
                     "$ref": "#/definitions/responses.Err"
                 }
             }
@@ -585,10 +585,10 @@
             "title": "ResponseSingle",
             "type": "object",
             "properties": {
-                "Data": {
-                    "$ref": "#/definitions/171.0xc00056ac00.false"
+                "data": {
+                    "$ref": "#/definitions/253.0xc0004d22a0.false"
                 },
-                "Error": {
+                "error": {
                     "$ref": "#/definitions/responses.Err"
                 }
             }

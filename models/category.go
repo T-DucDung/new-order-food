@@ -6,11 +6,11 @@ import (
 )
 
 type Category struct {
-	CategoryId int
-	Name       string
+	CategoryId int    `json:"category_id" xml:"category_id"`
+	Name       string `json:"name" xml:"name"`
 }
 
-func (this *Category) GetListCategory () ([]responses.CategoryRes, error){
+func (this *Category) GetListCategory() ([]responses.CategoryRes, error) {
 	lc := []responses.CategoryRes{}
 
 	results, err := db.Query(queries.GetListCate())

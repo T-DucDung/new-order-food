@@ -6,23 +6,23 @@ import (
 )
 
 type Product struct {
-	Id          int
-	Name        string
-	Image       string
-	Price       float32
-	IsSale      bool
-	Unit        string
-	Remaining   int
-	SalePrice   float32
-	Description string
-	Sold        int
-	CategoryId  int
-	Rate1       int
-	Rate2       int
-	Rate3       int
-	Rate4       int
-	Rate5       int
-	RateAvg     float32
+	Id          int     `json:"id" xml:"id"`
+	Name        string  `json:"name" xml:"name"`
+	Image       string  `json:"image" xml:"image"`
+	Price       float32 `json:"price" xml:"price"`
+	IsSale      bool    `json:"is_sale" xml:"is_sale"`
+	Unit        string  `json:"unit" xml:"unit"`
+	Remaining   int     `json:"remaining" xml:"remaining"`
+	SalePrice   float32 `json:"sale_price" xml:"sale_price"`
+	Description string  `json:"description" xml:"description"`
+	Sold        int     `json:"sold" xml:"sold"`
+	CategoryId  int     `json:"category_id" xml:"category_id"`
+	Rate1       int     `json:"rate1" xml:"rate1"`
+	Rate2       int     `json:"rate2" xml:"rate2"`
+	Rate3       int     `json:"rate3" xml:"rate3"`
+	Rate4       int     `json:"rate4" xml:"rate4"`
+	Rate5       int     `json:"rate5" xml:"rate5"`
+	RateAvg     float32 `json:"rate_avg" xml:"rate_avg"`
 }
 
 func (this *Product) CreateProduct() error {

@@ -18,8 +18,8 @@ var (
 var UnAuthResponse = ResponseSingle{Data: "UnAuthenticated", Error: &Err{Code: 405, Message: "UnAuthenticated"}}
 
 type Err struct {
-	Code    int64  `json:"code"`
-	Message string `json:"message"`
+	Code    int64  `json:"code" xml:"code"`
+	Message string `json:"message" xml:"message"`
 }
 
 func NewErr(err error) *Err {

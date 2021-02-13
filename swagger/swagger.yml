@@ -227,70 +227,70 @@ paths:
         "404":
           description: '{object} responses.ResponseArray'
 definitions:
-  171.0xc00056ac00.false:
+  253.0xc0004d22a0.false:
     title: "false"
     type: object
-  238.0xc00056ac90.false:
+  379.0xc0004d2330.false:
     title: "false"
     type: object
   models.Category:
     title: Category
     type: object
     properties:
-      CategoryId:
+      category_id:
         type: integer
         format: int64
-      Name:
+      name:
         type: string
   models.Product:
     title: Product
     type: object
     properties:
-      CategoryId:
+      category_id:
         type: integer
         format: int64
-      Description:
+      description:
         type: string
-      Id:
+      id:
         type: integer
         format: int64
-      Image:
+      image:
         type: string
-      IsSale:
+      is_sale:
         type: boolean
-      Name:
+      name:
         type: string
-      Price:
+      price:
         type: number
         format: float
-      Rate1:
-        type: integer
-        format: int64
-      Rate2:
-        type: integer
-        format: int64
-      Rate3:
-        type: integer
-        format: int64
-      Rate4:
-        type: integer
-        format: int64
-      Rate5:
-        type: integer
-        format: int64
-      RateAvg:
+      rate_avg:
         type: number
         format: float
-      Remaining:
+      rate1:
         type: integer
         format: int64
-      SalePrice:
+      rate2:
+        type: integer
+        format: int64
+      rate3:
+        type: integer
+        format: int64
+      rate4:
+        type: integer
+        format: int64
+      rate5:
+        type: integer
+        format: int64
+      remaining:
+        type: integer
+        format: int64
+      sale_price:
         type: number
         format: float
-      Sold:
+      sold:
         type: integer
         format: int64
-      Unit:
+      unit:
         type: string
   requests.RequestCreateProduct:
     title: RequestCreateProduct
@@ -380,24 +380,24 @@ definitions:
     title: ResponseArray
     type: object
     properties:
-      Data:
-        $ref: '#/definitions/238.0xc00056ac90.false'
-      Error:
+      data:
+        $ref: '#/definitions/379.0xc0004d2330.false'
+      error:
         $ref: '#/definitions/responses.Err'
-      TotalCount:
+      total_count:
         type: integer
         format: int64
   responses.ResponseBool:
     title: ResponseBool
     type: object
     properties:
-      Error:
+      error:
         $ref: '#/definitions/responses.Err'
   responses.ResponseSingle:
     title: ResponseSingle
     type: object
     properties:
-      Data:
-        $ref: '#/definitions/171.0xc00056ac00.false'
-      Error:
+      data:
+        $ref: '#/definitions/253.0xc0004d22a0.false'
+      error:
         $ref: '#/definitions/responses.Err'

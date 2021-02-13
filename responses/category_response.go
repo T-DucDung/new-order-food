@@ -1,6 +1,6 @@
 package responses
 
 type CategoryRes struct {
-	Name  string
-	Total int
+	Name  string `json:"name" xml:"name"`
+	Total int    `json:"total" xml:"total"`
 }

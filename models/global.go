@@ -11,18 +11,18 @@ import (
 )
 
 var (
-	db   *sql.DB
+	db    *sql.DB
 	onceM sync.Once
 	onceR sync.Once
-	err  error
-	rdb *redis.Client
+	err   error
+	rdb   *redis.Client
 )
 
 var ctx = context.Background()
 
 func InitConnectDataBase() {
 	onceM.Do(func() {
-		db, err = sql.Open("mysql", "root:123@tcp(127.0.0.1:3306)/neworderfood")
+		db, err = sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/neworderfood")
 		if err != nil {
 			log.Println("error connect database : ", err)
 		} else {
@@ -33,7 +33,7 @@ func InitConnectDataBase() {
 	})
 }
 
-func InitRedisClient(){
+func InitRedisClient() {
 	onceR.Do(func() {
 		rdb = redis.NewClient(&redis.Options{
 			Addr:     "127.0.0.1:6379",
