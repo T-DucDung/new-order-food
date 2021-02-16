@@ -23,7 +23,7 @@ func (this *CategoryController) GetListCategory() {
 	defer this.ServeJSON()
 	lc, err := services.GetListCategory()
 	if err != nil {
-		log.Println("controllers/category_controller.go:24 ", err)
+		log.Println("controllers/category_controller.go:26 ", err)
 		this.Data["json"] = responses.ResponseArray{
 			Data:       nil,
 			TotalCount: 0,
@@ -32,9 +32,9 @@ func (this *CategoryController) GetListCategory() {
 		return
 	}
 	this.Data["json"] = responses.ResponseArray{
-		Data:  lc,
+		Data:       lc,
 		TotalCount: len(lc),
-		Error: responses.NewErr(responses.Success),
+		Error:      responses.NewErr(responses.Success),
 	}
 }
 
@@ -45,8 +45,8 @@ func (this *CategoryController) GetListCategory() {
 // @Param data body models.Category true "category"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
-//@router /auth [put]
-func (this *CategoryController) UpDateCategory()  {
+//@router / [put]
+func (this *CategoryController) UpDateCategory() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")
 	if idtype != "admin" {
@@ -85,7 +85,7 @@ func (this *CategoryController) UpDateCategory()  {
 // @Param name body string true "name categorry"
 //@Success 200 {object} responses.ResponseBool
 //@Failure 404 {object} responses.ResponseBool
-//@router /auth [post]
+//@router / [post]
 func (this *CategoryController) CreateCategory() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")

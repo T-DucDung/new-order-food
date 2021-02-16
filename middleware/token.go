@@ -9,7 +9,19 @@ import (
 	"github.com/astaxie/beego/context"
 )
 
+var mapNotAuthUrls = map[string]string{
+	"/v1/product/:id":      "GET",
+	"/v1/product/list":     "GET",
+	"/v1/category/":        "GET",
+	"/v1/account/login":    "POST",
+	"/v1/account/register": "POST",
+}
+
 var Token = func(ctx *context.Context) {
+	if v, c := mapNotAuthUrls[ctx.Request.URL.Path]; c && ctx.Request.Method == v {
+		return
+	}
+
 	token := ctx.Request.Header["Token"]
 	if len(token) < 1 {
 		ctx.Output.JSON(responses.UnAuthResponse, true, true)

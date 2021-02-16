@@ -34,9 +34,11 @@ func main() {
 	// beego.InsertFilter("/v1/store/comment", beego.BeforeRouter, middlewares.Jwt)
 	// beego.InsertFilter("/v1/store/rate", beego.BeforeRouter, middlewares.Jwt)
 
-	beego.InsertFilter("/v1/category/auth/*", beego.BeforeRouter, middleware.Token)
-	beego.InsertFilter("/v1/product/auth/*", beego.BeforeRouter, middleware.Token)
-	beego.InsertFilter("/v1/account/auth/*", beego.BeforeRouter, middleware.Token)
+	//beego.InsertFilter("/v1/category/auth/*", beego.BeforeRouter, middleware.Token)
+	//beego.InsertFilter("/v1/product/auth/*", beego.BeforeRouter, middleware.Token)
+	//beego.InsertFilter("/v1/account/auth/*", beego.BeforeRouter, middleware.Token)
+
+	beego.InsertFilter("*", beego.BeforeRouter, middleware.Token)
 
 	beego.Run()
 }

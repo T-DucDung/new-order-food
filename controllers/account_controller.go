@@ -19,7 +19,7 @@ type AccountController struct {
 // @Param data body requests.RequestLogin true "login"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
-//@router / [post]
+//@router /login [post]
 func (this *AccountController) Login() {
 	defer this.ServeJSON()
 	data := requests.RequestLogin{}
@@ -68,46 +68,6 @@ func (this *AccountController) Register() {
 	err = services.Register(req)
 	if err != nil {
 		log.Println("controllers/account_controller.go:70 ", err)
-		this.Data["json"] = responses.ResponseBool{
-			Error: responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	this.Data["json"] = responses.ResponseBool{
-		Error: responses.NewErr(responses.Success),
-	}
-}
-
-//@Title Register For Admin
-//@Description Register For Admin
-//@Summary Tạo mới tài khoản
-// @Params token header string true "Token"
-// @Param req body requests.RequestRegisterForAdmin true "req"
-//@Success 200 {object} responses.ResponseBool
-//@Failure 404 {object} responses.ResponseBool
-//@router /auth [post]
-func (this *AccountController) RegisterForAdmin() {
-	defer this.ServeJSON()
-	idtype := this.Ctx.Request.Header.Get("type")
-	if idtype != "admin" {
-		log.Println("controllers/account_controller.go:93 , typeid is not admin ")
-		this.Data["json"] = responses.ResponseBool{
-			Error: responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	req := requests.RequestRegisterForAdmin{}
-	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
-	if err != nil {
-		log.Println("controllers/account_controller.go:102 ", err)
-		this.Data["json"] = responses.ResponseBool{
-			Error: responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	err = services.RegisterForAdmin(req)
-	if err != nil {
-		log.Println("controllers/account_controller.go:110 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}

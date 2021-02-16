@@ -14,14 +14,3 @@ type RequestRegister struct {
 	Image    string
 	Gender   string
 }
-
-type RequestRegisterForAdmin struct {
-	Username string
-	Pass     string
-	Type     string
-	Name     string
-	Phone    string
-	Email    string
-	Image    string
-	Gender   string
-}

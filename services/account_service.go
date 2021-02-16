@@ -13,8 +13,3 @@ func Register(req requests.RequestRegister) error {
 	acc := models.Account{}
 	return acc.Register(req)
 }
-
-func RegisterForAdmin(req requests.RequestRegisterForAdmin) error {
-	acc := models.Account{}
-	return acc.RegisterForAdmin(req)
-}

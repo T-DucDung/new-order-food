@@ -21,7 +21,7 @@ type ProductController struct {
 // @Param data body requests.RequestCreateProduct true "product"
 //@Success 200 {object} responses.ResponseBool
 //@Failure 404 {object} responses.ResponseBool
-//@router /auth [post]
+//@router / [post]
 func (this *ProductController) CreateProduct() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")
@@ -57,13 +57,13 @@ func (this *ProductController) CreateProduct() {
 //@Title Get Product
 //@Description Get Product
 //@Summary Lấy một sản phẩm
-// @Param pid query string true "product id"
+// @Param pid path string true "product id"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
-//@router / [get]
+//@router /:pid [get]
 func (this *ProductController) GetProduct() {
 	defer this.ServeJSON()
-	pid := this.GetString("pid")
+	pid := this.GetString(":pid")
 	log.Println("product id : ", pid)
 	p, err := services.GetProduct(pid)
 	if err != nil {
@@ -83,6 +83,8 @@ func (this *ProductController) GetProduct() {
 //@Title Get List Product
 //@Description Get List Product
 //@Summary Lấy một danh sách sản phẩm
+// @Param pos query int false "pos"
+// @Param count query int false "count"
 // @Param cateid query string false "cate id"
 //@Success 200 {object} responses.ResponseArray
 //@Failure 404 {object} responses.ResponseArray
@@ -90,10 +92,39 @@ func (this *ProductController) GetProduct() {
 func (this *ProductController) GetListProduct() {
 	defer this.ServeJSON()
 	cateid := this.GetString("cateid")
-	log.Println("cate id : ", cateid)
-	lp, err := services.GetListProduct(cateid)
+	pos, err := this.GetInt("pos", 0)
 	if err != nil {
-		log.Println("controllers/product_controller.go:96 ", err)
+		log.Println("controllers/product_controller.go:97 ", err)
+		this.Data["json"] = responses.ResponseArray{
+			Data:       nil,
+			TotalCount: 0,
+			Error:      responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+	count, err := this.GetInt("count", 0)
+	if err != nil {
+		log.Println("controllers/product_controller.go:107 ", err)
+		this.Data["json"] = responses.ResponseArray{
+			Data:       nil,
+			TotalCount: 0,
+			Error:      responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+	if pos < 0 || count < 0 {
+		log.Println("controllers/product_controller.go:116 ", err)
+		this.Data["json"] = responses.ResponseArray{
+			Data:       nil,
+			TotalCount: 0,
+			Error:      responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+
+	lp, err := services.GetListProduct(pos, count, cateid)
+	if err != nil {
+		log.Println("controllers/product_controller.go:127 ", err)
 		this.Data["json"] = responses.ResponseArray{
 			Data:       nil,
 			TotalCount: 0,
@@ -102,9 +133,9 @@ func (this *ProductController) GetListProduct() {
 		return
 	}
 	this.Data["json"] = responses.ResponseArray{
-		Data:  lp,
+		Data:       lp,
 		TotalCount: len(lp),
-		Error: responses.NewErr(responses.Success),
+		Error:      responses.NewErr(responses.Success),
 	}
 }
 
@@ -115,12 +146,12 @@ func (this *ProductController) GetListProduct() {
 // @Param data body models.Product true "product"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
-//@router /auth [put]
-func (this *ProductController) UpDateProduct()  {
+//@router / [put]
+func (this *ProductController) UpDateProduct() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")
 	if idtype != "admin" {
-		log.Println("controllers/product_controller.go:123 , typeid is not admin ")
+		log.Println("controllers/product_controller.go:154 , typeid is not admin ")
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -129,7 +160,7 @@ func (this *ProductController) UpDateProduct()  {
 	product := models.Product{}
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &product)
 	if err != nil {
-		log.Println("controllers/product_controller.go:132 ", err)
+		log.Println("controllers/product_controller.go:163 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}
@@ -137,7 +168,7 @@ func (this *ProductController) UpDateProduct()  {
 	}
 	err = services.UpDateProduct(product)
 	if err != nil {
-		log.Println("controllers/product_controller.go:140 ", err)
+		log.Println("controllers/product_controller.go:171 ", err)
 		this.Data["json"] = responses.ResponseBool{
 			Error: responses.NewErr(responses.UnSuccess),
 		}

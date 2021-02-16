@@ -22,7 +22,7 @@ var ctx = context.Background()
 
 func InitConnectDataBase() {
 	onceM.Do(func() {
-		db, err = sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/neworderfood")
+		db, err = sql.Open("mysql", "root:123@tcp(127.0.0.1:3306)/neworderfood")
 		if err != nil {
 			log.Println("error connect database : ", err)
 		} else {

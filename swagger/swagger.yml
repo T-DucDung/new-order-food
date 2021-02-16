@@ -2,7 +2,7 @@ swagger: "2.0"
 info: {}
 basePath: /v1
 paths:
-  /account/:
+  /account/login:
     post:
       tags:
       - account
@@ -23,32 +23,6 @@ paths:
             $ref: '#/definitions/responses.ResponseSingle'
         "404":
           description: '{object} responses.ResponseSingle'
-  /account/auth:
-    post:
-      tags:
-      - account
-      summary: Tạo mới tài khoản
-      description: Register For Admin
-      operationId: AccountController.Register For Admin
-      parameters:
-      - in: header
-        name: token
-        description: Token
-        required: true
-        type: string
-      - in: body
-        name: req
-        description: req
-        required: true
-        schema:
-          $ref: '#/definitions/requests.RequestRegisterForAdmin'
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/responses.ResponseBool'
-        "404":
-          description: '{object} responses.ResponseBool'
   /account/register:
     post:
       tags:
@@ -84,7 +58,6 @@ paths:
             $ref: '#/definitions/responses.ResponseArray'
         "404":
           description: '{object} responses.ResponseArray'
-  /category/auth:
     put:
       tags:
       - category
@@ -137,26 +110,6 @@ paths:
         "404":
           description: '{object} responses.ResponseBool'
   /product/:
-    get:
-      tags:
-      - product
-      summary: Lấy một sản phẩm
-      description: Get Product
-      operationId: ProductController.Get Product
-      parameters:
-      - in: query
-        name: pid
-        description: product id
-        required: true
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/responses.ResponseSingle'
-        "404":
-          description: '{object} responses.ResponseSingle'
-  /product/auth:
     put:
       tags:
       - product
@@ -207,6 +160,26 @@ paths:
             $ref: '#/definitions/responses.ResponseBool'
         "404":
           description: '{object} responses.ResponseBool'
+  /product/{pid}:
+    get:
+      tags:
+      - product
+      summary: Lấy một sản phẩm
+      description: Get Product
+      operationId: ProductController.Get Product
+      parameters:
+      - in: path
+        name: pid
+        description: product id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseSingle'
+        "404":
+          description: '{object} responses.ResponseSingle'
   /product/list:
     get:
       tags:
@@ -215,6 +188,16 @@ paths:
       description: Get List Product
       operationId: ProductController.Get List Product
       parameters:
+      - in: query
+        name: pos
+        description: pos
+        type: integer
+        format: int64
+      - in: query
+        name: count
+        description: count
+        type: integer
+        format: int64
       - in: query
         name: cateid
         description: cate id
@@ -227,10 +210,10 @@ paths:
         "404":
           description: '{object} responses.ResponseArray'
 definitions:
-  253.0xc0004d22a0.false:
+  389.0xc00059b500.false:
     title: "false"
     type: object
-  379.0xc0004d2330.false:
+  515.0xc00059b590.false:
     title: "false"
     type: object
   models.Category:
@@ -347,26 +330,6 @@ definitions:
         type: string
       Username:
         type: string
-  requests.RequestRegisterForAdmin:
-    title: RequestRegisterForAdmin
-    type: object
-    properties:
-      Email:
-        type: string
-      Gender:
-        type: string
-      Image:
-        type: string
-      Name:
-        type: string
-      Pass:
-        type: string
-      Phone:
-        type: string
-      Type:
-        type: string
-      Username:
-        type: string
   responses.Err:
     title: Err
     type: object
@@ -381,7 +344,7 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/379.0xc0004d2330.false'
+        $ref: '#/definitions/515.0xc00059b590.false'
       error:
         $ref: '#/definitions/responses.Err'
       total_count:
@@ -398,6 +361,6 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/253.0xc0004d22a0.false'
+        $ref: '#/definitions/389.0xc00059b500.false'
       error:
         $ref: '#/definitions/responses.Err'
