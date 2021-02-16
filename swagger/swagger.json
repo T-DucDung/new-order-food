@@ -69,6 +69,146 @@
                 }
             }
         },
+        "/cart/": {
+            "get": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "Lấy danh sách sản phẩm trong giỏ hàng",
+                "description": "Get List Item In Cart",
+                "operationId": "CartController.Get List Item In Cart",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "sửa sản phẩm trong giỏ hàng",
+                "description": "Update Item In Cart",
+                "operationId": "CartController.Update Item In Cart",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "ProductId and quantity",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestCart"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "thêm sản phẩm vào giỏ hàng",
+                "description": "Set Item InTo Cart",
+                "operationId": "CartController.Set Item Into Cart",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "ProductId and quantity",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestCart"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "cart"
+                ],
+                "summary": "xóa sản phẩm trong giỏ hàng",
+                "description": "Delete Item In Cart",
+                "operationId": "CartController.Delete Item In Cart",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "pid",
+                        "description": "ProductId",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
         "/category/": {
             "get": {
                 "tags": [
@@ -316,11 +456,11 @@
         }
     },
     "definitions": {
-        "389.0xc00059b500.false": {
+        "389.0xc0005bb770.false": {
             "title": "false",
             "type": "object"
         },
-        "515.0xc00059b590.false": {
+        "515.0xc0005bb800.false": {
             "title": "false",
             "type": "object"
         },
@@ -403,6 +543,20 @@
                 },
                 "unit": {
                     "type": "string"
+                }
+            }
+        },
+        "requests.RequestCart": {
+            "title": "RequestCart",
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "format": "int64"
                 }
             }
         },
@@ -504,7 +658,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/515.0xc00059b590.false"
+                    "$ref": "#/definitions/515.0xc0005bb800.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -529,7 +683,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/389.0xc00059b500.false"
+                    "$ref": "#/definitions/389.0xc0005bb770.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"

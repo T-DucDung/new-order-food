@@ -29,8 +29,8 @@ func (this *Account) Login(req requests.RequestLogin) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		value := string(a.Id) + ":" + a.Type
-		_, err = Set(token, value, 30*time.Second)
+		value := strconv.Itoa(a.Id) + ":" + a.Type
+		_, err = Set(token, value, 900*time.Second)
 		if err != nil {
 			log.Println("models/account.go:34 ", err)
 			return "", err
