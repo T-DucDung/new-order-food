@@ -4,12 +4,22 @@ import (
 	"errors"
 	"new-order-food/models"
 	"new-order-food/responses"
+	"strconv"
 )
 
 func Set(uid, pid, quantity int) error {
 	if quantity <= 0 {
 		return errors.New("quantity error")
 	}
+	p := models.Product{}
+	total, err := p.CheckRemaining(strconv.Itoa(pid))
+	if err != nil {
+		return err
+	}
+	if quantity > total {
+		return errors.New("quantity error")
+	}
+
 	cart := models.Cart{
 		Userid:    uid,
 		ProductId: pid,
@@ -42,6 +52,15 @@ func UpdateItem(uid, pid, quantity int) error {
 	} else if quantity < 0 {
 		return errors.New("quantity error")
 	}
+	p := models.Product{}
+	total, err := p.CheckRemaining(strconv.Itoa(pid))
+	if err != nil {
+		return err
+	}
+	if quantity > total {
+		return errors.New("quantity error")
+	}
+
 	cart := models.Cart{
 		Userid:    uid,
 		ProductId: pid,

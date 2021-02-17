@@ -78,3 +78,24 @@ func (this *Product) UpDateProduct() error {
 
 	return nil
 }
+
+func (this *Product) CheckRemaining(pid string) (int, error) {
+	var total int
+	err := db.QueryRow(queries.GetTotalRemaining(pid)).Scan(&total)
+	if err != nil {
+		return 0, err
+	}
+	return total, nil
+}
+
+func (this *Product) UpdateRemaining(pid string, total int) error {
+	data, err := db.Prepare("UPDATE Product as p SET p.Remaining = ? WHERE p.Id = ?;")
+	if err != nil {
+		return err
+	}
+	_, err = data.Exec(total, pid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
