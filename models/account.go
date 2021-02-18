@@ -30,7 +30,7 @@ func (this *Account) Login(req requests.RequestLogin) (string, error) {
 			return "", err
 		}
 		value := string(a.Id) + ":" + a.Type
-		_, err = Set(token, value, 30*time.Second)
+		_, err = Set(token, value, 15*time.Minute)
 		if err != nil {
 			log.Println("models/account.go:34 ", err)
 			return "", err
