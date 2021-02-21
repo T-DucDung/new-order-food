@@ -32,7 +32,7 @@ func (this *AccountController) Login() {
 		}
 		return
 	}
-	token, err := services.Login(data)
+	token, typeid, err := services.Login(data)
 	if err != nil {
 		log.Println("controllers/account_controller.go:37 ", err)
 		this.Data["json"] = responses.ResponseSingle{
@@ -42,7 +42,10 @@ func (this *AccountController) Login() {
 		return
 	}
 	this.Data["json"] = responses.ResponseSingle{
-		Data:  token,
+		Data: map[string]string{
+			"token":  token,
+			"typeid": typeid,
+		},
 		Error: responses.NewErr(responses.Success),
 	}
 }

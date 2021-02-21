@@ -15,3 +15,7 @@ func GetListProductByCate(cate string) string {
 func GetTotalRemaining(pid string) string {
 	return "select p.Remaining FROM Product p where p.Id = " + pid
 }
+
+func GetPrice(pid string) string {
+	return "select p.Price, p.IsSale, p.SalePrice from Product p where p.Id = " + pid
+}

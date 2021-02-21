@@ -27,6 +27,11 @@ func init() {
 				&controllers.CartController{},
 			),
 		),
+		beego.NSNamespace("/order",
+			beego.NSInclude(
+				&controllers.OrderController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

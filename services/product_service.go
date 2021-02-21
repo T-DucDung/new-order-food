@@ -34,19 +34,29 @@ func GetProduct(id string) (responses.ProductRes, error) {
 	return p.GetProduct(id)
 }
 
-func GetListProduct(pos, count int, cateid string) ([]responses.ProductRes, error) {
+func GetListProduct(pos, count int, cateid string) ([]responses.ProductRes, int, error) {
 	p := models.Product{}
 	if cateid != "" {
-		return p.GetListProduct(queries.GetListProductByCate(cateid))
+		lp, err := p.GetListProduct(queries.GetListProductByCate(cateid))
+		if err != nil {
+			return nil, 0, err
+		}
+		if len(lp) < count {
+			return lp, len(lp), nil
+		}
+		return lp[pos : pos+count], len(lp), nil
 	}
 	lp, err := p.GetListProduct(queries.GetListProduct())
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 	if count == 0 {
-		return lp, nil
+		return lp, 0, nil
 	}
-	return lp[pos : count+1], nil
+	if len(lp) < count {
+		return lp, len(lp), nil
+	}
+	return lp[pos : pos+count], len(lp), nil
 }
 
 func UpDateProduct(p models.Product) error {

@@ -89,7 +89,7 @@ func (this *Product) CheckRemaining(pid string) (int, error) {
 }
 
 func (this *Product) UpdateRemaining(pid string, total int) error {
-	data, err := db.Prepare("UPDATE Product as p SET p.Remaining = ? WHERE p.Id = ?;")
+	data, err := db.Prepare("UPDATE Product as p SET p.Remaining = p.Remaining + ? WHERE p.Id = ?;")
 	if err != nil {
 		return err
 	}
@@ -98,4 +98,17 @@ func (this *Product) UpdateRemaining(pid string, total int) error {
 		return err
 	}
 	return nil
+}
+
+func (this *Product) GetPrice(pid string) (bool, float32, error) {
+	var price, salePrice float32
+	var isSale bool
+	err := db.QueryRow(queries.GetPrice(pid)).Scan(&price, &isSale, &salePrice)
+	if err != nil {
+		return false, -1, err
+	}
+	if isSale == true {
+		return true, salePrice, nil
+	}
+	return false, price, nil
 }

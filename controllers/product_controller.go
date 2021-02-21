@@ -83,8 +83,8 @@ func (this *ProductController) GetProduct() {
 //@Title Get List Product
 //@Description Get List Product
 //@Summary Lấy một danh sách sản phẩm
-// @Param pos query int false "pos"
-// @Param count query int false "count"
+// @Param page query int false "page"
+// @Param size query int false "size"
 // @Param cateid query string false "cate id"
 //@Success 200 {object} responses.ResponseArray
 //@Failure 404 {object} responses.ResponseArray
@@ -92,39 +92,12 @@ func (this *ProductController) GetProduct() {
 func (this *ProductController) GetListProduct() {
 	defer this.ServeJSON()
 	cateid := this.GetString("cateid")
-	pos, err := this.GetInt("pos", 0)
+	page, err := this.GetInt("page", 1)
+	size, err := this.GetInt("size", 10)
+	log.Println(page,size,cateid)
+	lp, count, err := services.GetListProduct((page-1)*size, size, cateid)
 	if err != nil {
-		log.Println("controllers/product_controller.go:97 ", err)
-		this.Data["json"] = responses.ResponseArray{
-			Data:       nil,
-			TotalCount: 0,
-			Error:      responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	count, err := this.GetInt("count", 0)
-	if err != nil {
-		log.Println("controllers/product_controller.go:107 ", err)
-		this.Data["json"] = responses.ResponseArray{
-			Data:       nil,
-			TotalCount: 0,
-			Error:      responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	if pos < 0 || count < 0 {
-		log.Println("controllers/product_controller.go:116 ", err)
-		this.Data["json"] = responses.ResponseArray{
-			Data:       nil,
-			TotalCount: 0,
-			Error:      responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-
-	lp, err := services.GetListProduct(pos, count, cateid)
-	if err != nil {
-		log.Println("controllers/product_controller.go:127 ", err)
+		log.Println("controllers/product_controller.go:100 ", err)
 		this.Data["json"] = responses.ResponseArray{
 			Data:       nil,
 			TotalCount: 0,
@@ -134,7 +107,7 @@ func (this *ProductController) GetListProduct() {
 	}
 	this.Data["json"] = responses.ResponseArray{
 		Data:       lp,
-		TotalCount: len(lp),
+		TotalCount: count,
 		Error:      responses.NewErr(responses.Success),
 	}
 }

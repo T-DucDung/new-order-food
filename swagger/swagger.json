@@ -305,6 +305,45 @@
                 }
             }
         },
+        "/order/": {
+            "post": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "thanh toán đơn hàng",
+                "description": "Pay Order",
+                "operationId": "OrderController.Pay Order",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "order",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestOrder"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
         "/product/": {
             "put": {
                 "tags": [
@@ -392,15 +431,15 @@
                 "parameters": [
                     {
                         "in": "query",
-                        "name": "pos",
-                        "description": "pos",
+                        "name": "page",
+                        "description": "page",
                         "type": "integer",
                         "format": "int64"
                     },
                     {
                         "in": "query",
-                        "name": "count",
-                        "description": "count",
+                        "name": "size",
+                        "description": "size",
                         "type": "integer",
                         "format": "int64"
                     },
@@ -456,11 +495,11 @@
         }
     },
     "definitions": {
-        "389.0xc0005e6360.false": {
+        "424.0xc00060dad0.false": {
             "title": "false",
             "type": "object"
         },
-        "515.0xc0005e63f0.false": {
+        "550.0xc00060db60.false": {
             "title": "false",
             "type": "object"
         },
@@ -613,6 +652,45 @@
                 }
             }
         },
+        "requests.RequestOrder": {
+            "title": "RequestOrder",
+            "type": "object",
+            "properties": {
+                "Address": {
+                    "type": "string"
+                },
+                "Detail": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/requests.RequestOrderDetail"
+                    }
+                },
+                "Name": {
+                    "type": "string"
+                },
+                "Number": {
+                    "type": "string"
+                },
+                "lastUpdate": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "requests.RequestOrderDetail": {
+            "title": "RequestOrderDetail",
+            "type": "object",
+            "properties": {
+                "ProductId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "Quantity": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
         "requests.RequestRegister": {
             "title": "RequestRegister",
             "type": "object",
@@ -658,7 +736,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/515.0xc0005e63f0.false"
+                    "$ref": "#/definitions/550.0xc00060db60.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -683,7 +761,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/389.0xc0005e6360.false"
+                    "$ref": "#/definitions/424.0xc00060dad0.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"

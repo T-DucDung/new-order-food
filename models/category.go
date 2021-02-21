@@ -20,7 +20,7 @@ func (this *Category) GetListCategory() ([]responses.CategoryRes, error) {
 
 	for results.Next() {
 		p := responses.CategoryRes{}
-		err = results.Scan(&p.Name, &p.Total)
+		err = results.Scan(&p.Id, &p.Name, &p.Total)
 		if err != nil {
 			return nil, err
 		}

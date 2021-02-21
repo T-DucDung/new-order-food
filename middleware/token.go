@@ -10,18 +10,26 @@ import (
 )
 
 var mapNotAuthUrls = map[string]string{
-	"/v1/product/:id":      "GET",
 	"/v1/product/list":     "GET",
 	"/v1/category/":        "GET",
 	"/v1/account/login":    "POST",
 	"/v1/account/register": "POST",
 }
 
+var mapPrefix = map[string]string{
+	"/v1/product/": "GET",
+}
+
 var Token = func(ctx *context.Context) {
 	if v, c := mapNotAuthUrls[ctx.Request.URL.Path]; c && ctx.Request.Method == v {
 		return
 	}
-
+	for path, method := range mapPrefix {
+		c := strings.HasPrefix(ctx.Request.URL.Path, path)
+		if c && ctx.Request.Method == method {
+			return
+		}
+	}
 	token := ctx.Request.Header["Token"]
 	if len(token) < 1 {
 		ctx.Output.JSON(responses.UnAuthResponse, true, true)

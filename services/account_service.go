@@ -5,7 +5,7 @@ import (
 	"new-order-food/requests"
 )
 
-func Login(req requests.RequestLogin) (string, error) {
+func Login(req requests.RequestLogin) (string, string, error) {
 	acc := models.Account{}
 	return acc.Login(req)
 }
