@@ -25,6 +25,15 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["new-order-food/controllers:AdminController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "CreateAccount",
+            Router: "/",
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["new-order-food/controllers:CartController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:CartController"],
         beego.ControllerComments{
             Method: "GetListItemInCart",
@@ -129,6 +138,15 @@ func init() {
             Method: "GetListProduct",
             Router: "/list",
             AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:UserController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:UserController"],
+        beego.ControllerComments{
+            Method: "UpdateUser",
+            Router: "/",
+            AllowHTTPMethods: []string{"put"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

@@ -6,22 +6,22 @@ import (
 )
 
 type Order struct {
-	Id            int
-	UserId        int
+	Id            int `json:"id" xml:"id"`
+	UserId        int `json:"user_id" xml:"user_id"`
 	lastUpdate    int64
-	Number        string
-	Address       string
-	Name          string
-	Total         float32
-	CurrentStatus string
-	Detail        []OrderDetail
+	Number        string        `json:"number" xml:"number"`
+	Address       string        `json:"address" xml:"address"`
+	Name          string        `json:"name" xml:"name"`
+	Total         float32       `json:"total" xml:"total"`
+	CurrentStatus string        `json:"current_status" xml:"current_status"`
+	Detail        []OrderDetail `json:"detail" xml:"detail"`
 }
 
 type OrderDetail struct {
-	ProductId int
-	IsSale    bool
-	Price     float32
-	Quantity  int
+	ProductId int     `json:"product_id" xml:"product_id"`
+	IsSale    bool    `json:"is_sale" xml:"is_sale"`
+	Price     float32 `json:"price" xml:"price"`
+	Quantity  int     `json:"quantity" xml:"quantity"`
 }
 
 func (this *Order) PayOrder(order Order, lod []OrderDetail, total float32) error {

@@ -44,6 +44,32 @@ paths:
             $ref: '#/definitions/responses.ResponseBool'
         "404":
           description: '{object} responses.ResponseBool'
+  /admin/:
+    post:
+      tags:
+      - admin
+      summary: Tạo mới tài khoản
+      description: Create Account
+      operationId: AdminController.Create Account
+      parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
+      - in: body
+        name: req
+        description: req
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RequestCreateAccount'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseBool'
+        "404":
+          description: '{object} responses.ResponseBool'
   /cart/:
     get:
       tags:
@@ -330,11 +356,37 @@ paths:
             $ref: '#/definitions/responses.ResponseArray'
         "404":
           description: '{object} responses.ResponseArray'
+  /user/:
+    put:
+      tags:
+      - user
+      summary: sửa thông tin người dùng
+      description: Update User
+      operationId: UserController.Update User
+      parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
+      - in: body
+        name: data
+        description: data
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RequestUser'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseBool'
+        "404":
+          description: '{object} responses.ResponseBool'
 definitions:
-  424.0xc00060dad0.false:
+  424.0xc00061de00.false:
     title: "false"
     type: object
-  550.0xc00060db60.false:
+  550.0xc00061de90.false:
     title: "false"
     type: object
   models.Category:
@@ -406,87 +458,121 @@ definitions:
       quantity:
         type: integer
         format: int64
+  requests.RequestCreateAccount:
+    title: RequestCreateAccount
+    type: object
+    properties:
+      email:
+        type: string
+      gender:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      pass:
+        type: string
+      phone:
+        type: string
+      type:
+        type: string
+      username:
+        type: string
   requests.RequestCreateProduct:
     title: RequestCreateProduct
     type: object
     properties:
-      CategoryId:
+      category_id:
         type: integer
         format: int64
-      Description:
+      description:
         type: string
-      Image:
+      image:
         type: string
-      IsSale:
+      is_sale:
         type: boolean
-      Name:
+      name:
         type: string
-      Price:
+      price:
         type: number
         format: float
-      Remaining:
+      remaining:
         type: integer
         format: int64
-      SalePrice:
+      sale_price:
         type: number
         format: float
-      Sold:
+      sold:
         type: integer
         format: int64
-      Unit:
+      unit:
         type: string
   requests.RequestLogin:
     title: RequestLogin
     type: object
     properties:
-      Pass:
+      pass:
         type: string
-      Username:
+      username:
         type: string
   requests.RequestOrder:
     title: RequestOrder
     type: object
     properties:
-      Address:
+      address:
         type: string
-      Detail:
+      detail:
         type: array
         items:
           $ref: '#/definitions/requests.RequestOrderDetail'
-      Name:
-        type: string
-      Number:
-        type: string
       lastUpdate:
         type: integer
         format: int64
+      name:
+        type: string
+      number:
+        type: string
   requests.RequestOrderDetail:
     title: RequestOrderDetail
     type: object
     properties:
-      ProductId:
+      product_id:
         type: integer
         format: int64
-      Quantity:
+      quantity:
         type: integer
         format: int64
   requests.RequestRegister:
     title: RequestRegister
     type: object
     properties:
-      Email:
+      email:
         type: string
-      Gender:
+      gender:
         type: string
-      Image:
+      image:
         type: string
-      Name:
+      name:
         type: string
-      Pass:
+      pass:
         type: string
-      Phone:
+      phone:
         type: string
-      Username:
+      username:
+        type: string
+  requests.RequestUser:
+    title: RequestUser
+    type: object
+    properties:
+      email:
+        type: string
+      gender:
+        type: string
+      image:
+        type: string
+      name:
+        type: string
+      phone:
         type: string
   responses.Err:
     title: Err
@@ -502,7 +588,7 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/550.0xc00060db60.false'
+        $ref: '#/definitions/550.0xc00061de90.false'
       error:
         $ref: '#/definitions/responses.Err'
       total_count:
@@ -519,6 +605,6 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/424.0xc00060dad0.false'
+        $ref: '#/definitions/424.0xc00061de00.false'
       error:
         $ref: '#/definitions/responses.Err'

@@ -32,6 +32,16 @@ func init() {
 				&controllers.OrderController{},
 			),
 		),
+		beego.NSNamespace("/user",
+			beego.NSInclude(
+				&controllers.UserController{},
+			),
+		),
+		beego.NSNamespace("/admin",
+			beego.NSInclude(
+				&controllers.AdminController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }
