@@ -80,3 +80,29 @@ func (this *AccountController) Register() {
 		Error: responses.NewErr(responses.Success),
 	}
 }
+
+//@Title Check Exist Token
+//@Description Check Exist Token
+//@Summary check tồn tại token
+// @Param token query string true "token"
+//@Success 200 {object} responses.ResponseSingle
+//@Failure 404 {object} responses.ResponseSingle
+//@router / [get]
+func (this *AccountController) CheckExistToken() {
+	defer this.ServeJSON()
+	token := this.GetString("token")
+	log.Println("token : ", token)
+	r, err := services.CheckExistToken(token)
+	if err != nil {
+		log.Println("controllers/account_controller.go:97 ", err)
+		this.Data["json"] = responses.ResponseSingle{
+			Data:  nil,
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+	this.Data["json"] = responses.ResponseSingle{
+		Data:  r,
+		Error: responses.NewErr(responses.Success),
+	}
+}

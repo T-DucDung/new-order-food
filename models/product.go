@@ -100,15 +100,12 @@ func (this *Product) UpdateRemaining(pid string, total int) error {
 	return nil
 }
 
-func (this *Product) GetPrice(pid string) (bool, float32, error) {
+func (this *Product) GetPrice(pid string) (bool, float32, float32, error) {
 	var price, salePrice float32
 	var isSale bool
 	err := db.QueryRow(queries.GetPrice(pid)).Scan(&price, &isSale, &salePrice)
 	if err != nil {
-		return false, -1, err
+		return false, -1, -1, err
 	}
-	if isSale == true {
-		return true, salePrice, nil
-	}
-	return false, price, nil
+	return isSale, price, salePrice, nil
 }

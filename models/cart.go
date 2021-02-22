@@ -34,7 +34,7 @@ func (this *Cart) Get() ([]responses.CartRes, error) {
 
 	for results.Next() {
 		c := responses.CartRes{}
-		err = results.Scan(&c.Name, &c.Quantity)
+		err = results.Scan(&c.Id, &c.Name, &c.Quantity)
 		if err != nil {
 			return nil, err
 		}
@@ -78,4 +78,13 @@ func (this *Cart) UpdateItem() error {
 		return err
 	}
 	return nil
+}
+
+func (this *Cart) CheckExist() (bool, error) {
+	var check bool
+	err = db.QueryRow(queries.CheckExist(strconv.Itoa(this.Userid), strconv.Itoa(this.ProductId))).Scan(&check)
+	if err != nil {
+		return false, err
+	}
+	return check, nil
 }

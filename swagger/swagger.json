@@ -5,6 +5,36 @@
     },
     "basePath": "/v1",
     "paths": {
+        "/account/": {
+            "get": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "check tồn tại token",
+                "description": "Check Exist Token",
+                "operationId": "AccountController.Check Exist Token",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "token",
+                        "description": "token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
         "/account/login": {
             "post": {
                 "tags": [
@@ -137,43 +167,6 @@
                     }
                 }
             },
-            "put": {
-                "tags": [
-                    "cart"
-                ],
-                "summary": "sửa sản phẩm trong giỏ hàng",
-                "description": "Update Item In Cart",
-                "operationId": "CartController.Update Item In Cart",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "ProductId and quantity",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requests.RequestCart"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            },
             "post": {
                 "tags": [
                     "cart"
@@ -297,11 +290,11 @@
                     "200": {
                         "description": "",
                         "schema": {
-                            "$ref": "#/definitions/responses.ResponseSingle"
+                            "$ref": "#/definitions/responses.ResponseBool"
                         }
                     },
                     "404": {
-                        "description": "{object} responses.ResponseSingle"
+                        "description": "{object} responses.ResponseBool"
                     }
                 }
             },
@@ -345,6 +338,44 @@
             }
         },
         "/order/": {
+            "put": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "sửa đơn hàng",
+                "description": "Update Category",
+                "operationId": "OrderController.Update Category",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "id",
+                        "description": "id order",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "order"
@@ -379,6 +410,66 @@
                     },
                     "404": {
                         "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
+        "/order/list": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Lấy danh sách đặt hàng",
+                "description": "Get List Order",
+                "operationId": "OrderController.Get List Order",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            }
+        },
+        "/order/listAll": {
+            "get": {
+                "tags": [
+                    "order"
+                ],
+                "summary": "Lấy danh sách đặt hàng",
+                "description": "Get List Order",
+                "operationId": "OrderController.Get List Order",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
                     }
                 }
             }
@@ -573,11 +664,11 @@
         }
     },
     "definitions": {
-        "424.0xc00061de00.false": {
+        "620.0xc000692f90.false": {
             "title": "false",
             "type": "object"
         },
-        "550.0xc00061de90.false": {
+        "746.0xc000693020.false": {
             "title": "false",
             "type": "object"
         },
@@ -865,7 +956,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/550.0xc00061de90.false"
+                    "$ref": "#/definitions/746.0xc000693020.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -890,7 +981,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/424.0xc00061de00.false"
+                    "$ref": "#/definitions/620.0xc000692f90.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"

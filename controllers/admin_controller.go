@@ -24,7 +24,7 @@ type AdminController struct {
 func (this *AdminController) CreateAccount() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")
-	if idtype != "user" {
+	if idtype != "admin" {
 		log.Println("controllers/admin_controller.go:28 , typeid is not admin ")
 		this.Data["json"] = responses.ResponseBool{
 			Error:      responses.NewErr(responses.UnSuccess),

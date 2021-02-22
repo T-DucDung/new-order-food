@@ -43,8 +43,8 @@ func (this *CategoryController) GetListCategory() {
 //@Summary sửa một loại sản phẩm
 // @Params token header string true "Token"
 // @Param data body models.Category true "category"
-//@Success 200 {object} responses.ResponseSingle
-//@Failure 404 {object} responses.ResponseSingle
+//@Success 200 {object} responses.ResponseBool
+//@Failure 404 {object} responses.ResponseBool
 //@router / [put]
 func (this *CategoryController) UpDateCategory() {
 	defer this.ServeJSON()

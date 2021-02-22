@@ -4,6 +4,7 @@ import (
 	"errors"
 	"new-order-food/models"
 	"new-order-food/requests"
+	"new-order-food/responses"
 	"strconv"
 )
 
@@ -18,7 +19,11 @@ func PayOrder(req requests.RequestOrder, uid int) error {
 	if err != nil || total == -1 {
 		return err
 	}
-	return order.PayOrder(order, lod, total)
+	err = order.PayOrder(order, lod, total)
+	if err != nil {
+		return err
+	}
+	return Del(uid)
 }
 
 func CaculatorOrder(req []requests.RequestOrderDetail) ([]models.OrderDetail, float32, error) {
@@ -37,15 +42,34 @@ func CaculatorOrder(req []requests.RequestOrderDetail) ([]models.OrderDetail, fl
 		}
 		orderDetail.Quantity = v.Quantity
 
-		isSale, price, err := p.GetPrice(strconv.Itoa(v.ProductId))
-		if err != nil || price == -1 {
+		isSale, price, salePrice, err := p.GetPrice(strconv.Itoa(v.ProductId))
+		if err != nil || price == -1 || salePrice == -1 {
 			return nil, 0, err
 		}
 		orderDetail.IsSale = isSale
-		orderDetail.Price = price
+		if isSale == true {
+			orderDetail.Price = salePrice
+		} else {
+			orderDetail.Price = price
+		}
 
 		total = total + (price * float32(v.Quantity))
 		lod = append(lod, orderDetail)
 	}
 	return lod, total, nil
+}
+
+func GetListOrder(uid string) ([]responses.OrderRes, error) {
+	o := models.Order{}
+	return o.GetListOrder(uid)
+}
+
+func GetListOrderForAdmin() ([]responses.OrderRes, error) {
+	o := models.Order{}
+	return o.GetListOrderForAdmin()
+}
+
+func UpDateOrder(id string) error {
+	o := models.Order{}
+	return o.UpdateOrder(id)
 }

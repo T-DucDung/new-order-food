@@ -94,48 +94,6 @@ func (this *CartController) SetItem() {
 	}
 }
 
-//@Title Update Item In Cart
-//@Description Update Item In Cart
-//@Summary sửa sản phẩm trong giỏ hàng
-// @Params token header string true "Token"
-// @Params data body requests.RequestCart true "ProductId and quantity"
-//@Success 200 {object} responses.ResponseBool
-//@Failure 404 {object} responses.ResponseBool
-//@router / [put]
-func (this *CartController) UpdateItem() {
-	defer this.ServeJSON()
-	idtype := this.Ctx.Request.Header.Get("type")
-	if idtype != "user" {
-		log.Println("controllers/cart_controller.go:109 , typeid is not user ")
-		this.Data["json"] = responses.ResponseBool{
-			Error:      responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	uid, _ := strconv.Atoi(this.Ctx.Request.Header.Get("id"))
-	req := requests.RequestCart{}
-	err := json.Unmarshal(this.Ctx.Input.RequestBody, &req)
-	if err != nil {
-		log.Println("controllers/cart_controller.go:119 ", err)
-		this.Data["json"] = responses.ResponseBool{
-			Error: responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-
-	err = services.UpdateItem(uid, req.ProductId, req.Quantity)
-	if err != nil {
-		log.Println("controllers/cart_controller.go:128 ", err)
-		this.Data["json"] = responses.ResponseBool{
-			Error:      responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	this.Data["json"] = responses.ResponseBool{
-		Error:      responses.NewErr(responses.Success),
-	}
-}
-
 //@Title Delete Item In Cart
 //@Description Delete Item In Cart
 //@Summary xóa sản phẩm trong giỏ hàng
