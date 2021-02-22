@@ -19,3 +19,11 @@ func GetTotalRemaining(pid string) string {
 func GetPrice(pid string) string {
 	return "select p.Price, p.IsSale, p.SalePrice from Product p where p.Id = " + pid
 }
+
+func GetRateProduct(pid string) string {
+	return "select p.RateAvg FROM Product p where p.Id = " + pid
+}
+
+func GetAllRate(pid string) string {
+	return "select p.Rate1, p.Rate2, p.Rate3, p.Rate4, p.Rate5 FROM Product p where p.Id = " + pid
+}

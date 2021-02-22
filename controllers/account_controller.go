@@ -81,7 +81,7 @@ func (this *AccountController) Register() {
 	}
 }
 
-//@Title Check Exist Token
+//@Title Check Exist Token)
 //@Description Check Exist Token
 //@Summary check tồn tại token
 // @Param token query string true "token"

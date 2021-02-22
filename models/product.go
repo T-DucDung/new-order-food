@@ -1,8 +1,10 @@
 package models
 
 import (
+	"math"
 	"new-order-food/queries"
 	"new-order-food/responses"
+	"strconv"
 )
 
 type Product struct {
@@ -108,4 +110,53 @@ func (this *Product) GetPrice(pid string) (bool, float32, float32, error) {
 		return false, -1, -1, err
 	}
 	return isSale, price, salePrice, nil
+}
+
+func (this *Product) GetRate() (int, error) {
+	var rate int
+	err := db.QueryRow(queries.GetRateProduct(strconv.Itoa(this.Id))).Scan(&rate)
+	if err != nil {
+		return -1, err
+	}
+	return rate, nil
+}
+
+func (this *Product) UpdateRate(pid int, last string, cur string) error {
+	if last != "0" {
+		data, err := db.Prepare("UPDATE Product as p SET p.Rate" + last + " = p.Rate" + last + " - 1 , p.Rate" + cur + " = p.Rate" + cur + " + 1 WHERE p.Id = ?;")
+		if err != nil {
+			return err
+		}
+		_, err = data.Exec(pid)
+		if err != nil {
+			return err
+		}
+	} else {
+		data, err := db.Prepare("UPDATE Product as p SET p.Rate" + cur + " = p.Rate" + cur + " + 1 WHERE p.Id = ?;")
+		if err != nil {
+			return err
+		}
+		_, err = data.Exec(pid)
+		if err != nil {
+			return err
+		}
+	}
+
+	var rate1, rate2, rate3, rate4, rate5 int
+	err = db.QueryRow(queries.GetAllRate(strconv.Itoa(pid))).Scan(&rate1, &rate2, &rate3, &rate4, &rate5)
+	if err != nil {
+		return err
+	}
+
+	total := math.Round((float64(rate1*1+rate2*2+rate3*3+rate4*4+rate5*5) / float64(rate1+rate2+rate3+rate4+rate5)) * 10) / 10
+
+	data, err := db.Prepare("UPDATE Product as p SET p.RateAvg = ? WHERE p.Id = ?;")
+	if err != nil {
+		return err
+	}
+	_, err = data.Exec(total, pid)
+	if err != nil {
+		return err
+	}
+	return nil
 }

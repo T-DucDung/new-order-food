@@ -12,7 +12,7 @@
                 ],
                 "summary": "check tồn tại token",
                 "description": "Check Exist Token",
-                "operationId": "AccountController.Check Exist Token",
+                "operationId": "AccountController.Check Exist Token)",
                 "parameters": [
                     {
                         "in": "query",
@@ -691,6 +691,45 @@
                 }
             }
         },
+        "/rate/": {
+            "post": {
+                "tags": [
+                    "rate"
+                ],
+                "summary": "đánh giá",
+                "description": "Set Rate",
+                "operationId": "RateController.Set Rate",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestRate"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
         "/user/": {
             "put": {
                 "tags": [
@@ -732,11 +771,11 @@
         }
     },
     "definitions": {
-        "871.0xc0005fb020.false": {
+        "871.0xc0006ceff0.false": {
             "title": "false",
             "type": "object"
         },
-        "997.0xc0005fb0b0.false": {
+        "997.0xc0006cf080.false": {
             "title": "false",
             "type": "object"
         },
@@ -971,6 +1010,20 @@
                 }
             }
         },
+        "requests.RequestRate": {
+            "title": "RequestRate",
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "rate": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
         "requests.RequestRegister": {
             "title": "RequestRegister",
             "type": "object",
@@ -1037,7 +1090,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/997.0xc0005fb0b0.false"
+                    "$ref": "#/definitions/997.0xc0006cf080.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -1062,7 +1115,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/871.0xc0005fb020.false"
+                    "$ref": "#/definitions/871.0xc0006ceff0.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"

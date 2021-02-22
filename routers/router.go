@@ -47,6 +47,11 @@ func init() {
 				&controllers.CommentController{},
 			),
 		),
+		beego.NSNamespace("/rate",
+			beego.NSInclude(
+				&controllers.RateController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }
