@@ -82,7 +82,7 @@ func (this *Cart) UpdateItem() error {
 
 func (this *Cart) CheckExist() (bool, error) {
 	var check bool
-	err = db.QueryRow(queries.CheckExist(strconv.Itoa(this.Userid), strconv.Itoa(this.ProductId))).Scan(&check)
+	err = db.QueryRow(queries.CheckCartExist(strconv.Itoa(this.Userid), strconv.Itoa(this.ProductId))).Scan(&check)
 	if err != nil {
 		return false, err
 	}
