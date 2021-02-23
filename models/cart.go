@@ -45,7 +45,7 @@ func (this *Cart) Get() ([]responses.CartRes, error) {
 }
 
 func (this *Cart) Del() error {
-	data, err := db.Prepare("Delete Cart where UserId = ?")
+	data, err := db.Prepare("Delete from Cart where UserId = ?")
 	if err != nil {
 		return err
 	}

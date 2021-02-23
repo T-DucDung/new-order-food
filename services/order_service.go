@@ -37,7 +37,7 @@ func CaculatorOrder(req []requests.RequestOrderDetail) ([]models.OrderDetail, fl
 		orderDetail.ProductId = v.ProductId
 
 		remaining, err := p.CheckRemaining(strconv.Itoa(v.ProductId))
-		if v.Quantity < remaining {
+		if v.Quantity > remaining {
 			return nil, -1, errors.New("not enough product, id: " + strconv.Itoa(v.ProductId))
 		}
 		orderDetail.Quantity = v.Quantity

@@ -32,7 +32,7 @@ type OrderDetail struct {
 }
 
 func (this *Order) PayOrder(order Order, lod []OrderDetail, total float32) error {
-	data, err := db.Prepare("insert into `Order` (UserId,Name,Phone,Address,Total,CurrentStatus,LastUpDate) values VALUES(?, ?, ?, ?, ?, ?, ?);")
+	data, err := db.Prepare("insert into `Order` (UserId,Name,Phone,Address,Total,CurrentStatus,LastUpDate) VALUES(?, ?, ?, ?, ?, ?, ?);")
 	if err != nil {
 		return err
 	}
@@ -53,7 +53,7 @@ func (this *Order) PayOrder(order Order, lod []OrderDetail, total float32) error
 		if err != nil {
 			return err
 		}
-		err = p.UpdateRemaining(strconv.Itoa(item.ProductId), item.Quantity)
+		err = p.UpdateRemaining(strconv.Itoa(item.ProductId), -item.Quantity)
 		if err != nil {
 			return err
 		}
