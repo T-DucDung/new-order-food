@@ -42,11 +42,11 @@ func (this *Account) Login(req requests.RequestLogin) (string, string, error) {
 }
 
 func (this *Account) Register(req requests.RequestRegister) error {
-	data, err := db.Prepare("INSERT INTO Users(Name, Phone, Email, Image, Gender) VALUES(?, ?, ?, ?, ?);")
+	data, err := db.Prepare("INSERT INTO Users(Name, Phone, Email, Image, Gender, Rank) VALUES(?, ?, ?, ?, ?, ?);")
 	if err != nil {
 		return err
 	}
-	val, err := data.Exec(req.Name, req.Phone, req.Email, req.Image, req.Gender)
+	val, err := data.Exec(req.Name, req.Phone, req.Email, req.Image, req.Gender, "1")
 	if err != nil {
 		return err
 	}

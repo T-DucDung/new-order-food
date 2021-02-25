@@ -53,7 +53,7 @@ func (this *Order) PayOrder(order Order, lod []OrderDetail, total float32) error
 		if err != nil {
 			return err
 		}
-		err = p.UpdateRemaining(strconv.Itoa(item.ProductId), -item.Quantity)
+		err = p.UpdateRemaining(strconv.Itoa(item.ProductId), -item.Quantity, item.Quantity)
 		if err != nil {
 			return err
 		}

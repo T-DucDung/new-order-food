@@ -20,3 +20,5 @@ func (this *User) UpdateUser() error {
 	}
 	return nil
 }
+
+//func (this *User) GetUser()

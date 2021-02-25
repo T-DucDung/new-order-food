@@ -90,12 +90,12 @@ func (this *Product) CheckRemaining(pid string) (int, error) {
 	return total, nil
 }
 
-func (this *Product) UpdateRemaining(pid string, total int) error {
-	data, err := db.Prepare("UPDATE Product as p SET p.Remaining = p.Remaining + ? WHERE p.Id = ?;")
+func (this *Product) UpdateRemaining(pid string, total int, sold int) error {
+	data, err := db.Prepare("UPDATE Product as p SET p.Remaining = p.Remaining + ?, p.Sold = p.Sold + ? WHERE p.Id = ?;")
 	if err != nil {
 		return err
 	}
-	_, err = data.Exec(total, pid)
+	_, err = data.Exec(total, pid, sold)
 	if err != nil {
 		return err
 	}

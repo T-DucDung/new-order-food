@@ -27,11 +27,11 @@ func (this *Admin) CreateAccount(req requests.RequestCreateAccount) error {
 			Gender:   req.Gender,
 		})
 	} else if req.Type == "admin" {
-		data, err := db.Prepare("INSERT INTO Admin(Name, Phone, Email, Image, Gender) VALUES(?, ?, ?, ?, ?);")
+		data, err := db.Prepare("INSERT INTO User(Name, Phone, Email, Image, Gender, Rank) VALUES(?, ?, ?, ?, ?, ?);")
 		if err != nil {
 			return err
 		}
-		val, err := data.Exec(req.Name, req.Phone, req.Email, req.Image, req.Gender)
+		val, err := data.Exec(req.Name, req.Phone, req.Email, req.Image, req.Gender, "0")
 		if err != nil {
 			return err
 		}

@@ -771,11 +771,11 @@
         }
     },
     "definitions": {
-        "871.0xc00061aa50.false": {
+        "871.0xc000622ba0.false": {
             "title": "false",
             "type": "object"
         },
-        "997.0xc00061aae0.false": {
+        "997.0xc000622c30.false": {
             "title": "false",
             "type": "object"
         },
@@ -1090,7 +1090,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/997.0xc00061aae0.false"
+                    "$ref": "#/definitions/997.0xc000622c30.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -1115,7 +1115,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/871.0xc00061aa50.false"
+                    "$ref": "#/definitions/871.0xc000622ba0.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
