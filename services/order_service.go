@@ -19,6 +19,18 @@ func PayOrder(req requests.RequestOrder, uid int) error {
 	if err != nil || total == -1 {
 		return err
 	}
+
+	rank, err := GetRank(uid)
+	if err != nil {
+		return err
+	}
+	rate, err := GetRateDis(rank)
+	if err != nil {
+		return err
+	}
+
+	total = total * (rate / 100)
+
 	err = order.PayOrder(order, lod, total)
 	if err != nil {
 		return err

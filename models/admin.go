@@ -18,7 +18,7 @@ func (this *Admin) CreateAccount(req requests.RequestCreateAccount) error {
 	if req.Type == "user" {
 		acc := Account{}
 		return acc.Register(requests.RequestRegister{
-			Username: req.Username,
+			Username: req.UserName,
 			Pass:     req.Pass,
 			Name:     req.Name,
 			Phone:    req.Phone,
@@ -38,15 +38,47 @@ func (this *Admin) CreateAccount(req requests.RequestCreateAccount) error {
 
 		id, err := val.LastInsertId()
 
-		data, err = db.Prepare("INSERT INTO Account(Username, Pass, Id, type) VALUES(?, ?, ?, ?);")
+		data, err = db.Prepare("INSERT INTO Account(Username, Pass, Id, type, status) VALUES(?, ?, ?, ?, ?);")
 		if err != nil {
 			return err
 		}
-		_, err = data.Exec(req.Username, req.Pass, id, "admin")
+		_, err = data.Exec(req.UserName, req.Pass, id, "admin", "1")
 		if err != nil {
 			return err
 		}
 		return nil
 	}
 	return errors.New("account type not valid !")
+}
+
+func (this *Admin) GetAllUser(query string) ([]User, error) {
+	lu := []User{}
+
+	results, err := db.Query(query)
+	if err != nil {
+		return nil, err
+	}
+
+	for results.Next() {
+		u := User{}
+		err = results.Scan(&u.Id, &u.Name, &u.Gender, &u.Image, &u.Email, &u.Phone, &u.Rank)
+		if err != nil {
+			return nil, err
+		}
+		lu = append(lu, u)
+	}
+
+	return lu, nil
+}
+
+func (this *Admin) UpdateStatus(req requests.RequestUpdateStatus) error {
+	data, err := db.Prepare("Update Account set Status = ? where UserName = ?")
+	if err != nil {
+		return err
+	}
+	_, err = data.Exec(req.Status, req.UserName)
+	if err != nil {
+		return err
+	}
+	return nil
 }

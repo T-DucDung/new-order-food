@@ -16,3 +16,13 @@ func UpdateUser(req requests.RequestUser, uid int) error {
 	}
 	return u.UpdateUser()
 }
+
+func GetUser(id int) (models.User, error) {
+	u := models.User{Id: id}
+	return u.GetUser()
+}
+
+func GetRank(id int) (int, error) {
+	u, err := GetUser(id)
+	return u.Rank, err
+}

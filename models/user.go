@@ -1,5 +1,10 @@
 package models
 
+import (
+	"new-order-food/queries"
+	"strconv"
+)
+
 type User struct {
 	Id     int    `json:"id" xml:"id"`
 	Name   string `json:"name" xml:"name"`
@@ -7,6 +12,7 @@ type User struct {
 	Email  string `json:"email" xml:"email"`
 	Image  string `json:"image" xml:"image"`
 	Gender string `json:"gender" xml:"gender"`
+	Rank   int    `json:"rank" xml:"rank"`
 }
 
 func (this *User) UpdateUser() error {
@@ -21,4 +27,11 @@ func (this *User) UpdateUser() error {
 	return nil
 }
 
-//func (this *User) GetUser()
+func (this *User) GetUser() (User, error) {
+	u := User{}
+	err = db.QueryRow(queries.GetInfoUser(strconv.Itoa(this.Id))).Scan(&u.Id, &u.Name, &u.Gender, &u.Image, &u.Email, &u.Phone, &u.Rank)
+	if err != nil {
+		return User{}, err
+	}
+	return u, nil
+}

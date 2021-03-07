@@ -55,3 +55,29 @@ func (this *UserController) UpdateUser() {
 		Error:      responses.NewErr(responses.Success),
 	}
 }
+
+//@Title Get Info User
+//@Description Get Info User
+//@Summary Lấy một thông tin người dùng
+// @Params token header string true "Token"
+//@Success 200 {object} responses.ResponseSingle
+//@Failure 404 {object} responses.ResponseSingle
+//@router / [get]
+func (this *UserController) GetUser() {
+	defer this.ServeJSON()
+	uid := this.Ctx.Request.Header.Get("id")
+	id, _ := strconv.Atoi(uid)
+	u, err := services.GetUser(id)
+	if err != nil {
+		log.Println("controllers/user_controller.go:72 ", err)
+		this.Data["json"] = responses.ResponseSingle{
+			Data:  nil,
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+	this.Data["json"] = responses.ResponseSingle{
+		Data:  u,
+		Error: responses.NewErr(responses.Success),
+	}
+}

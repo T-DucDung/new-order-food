@@ -43,6 +43,24 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["new-order-food/controllers:AdminController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "GetAllUser",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:AdminController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:AdminController"],
+        beego.ControllerComments{
+            Method: "UpdateStatus",
+            Router: "/",
+            AllowHTTPMethods: []string{"put"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["new-order-food/controllers:CartController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:CartController"],
         beego.ControllerComments{
             Method: "GetListItemInCart",
@@ -109,6 +127,33 @@ func init() {
     beego.GlobalControllerRouter["new-order-food/controllers:CommentController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:CommentController"],
         beego.ControllerComments{
             Method: "CreateComment",
+            Router: "/",
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:DiscountController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:DiscountController"],
+        beego.ControllerComments{
+            Method: "GetListDiscount",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:DiscountController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:DiscountController"],
+        beego.ControllerComments{
+            Method: "UpdateDiscount",
+            Router: "/",
+            AllowHTTPMethods: []string{"put"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:DiscountController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:DiscountController"],
+        beego.ControllerComments{
+            Method: "CreateDiscount",
             Router: "/",
             AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
@@ -201,6 +246,15 @@ func init() {
             Method: "UpdateUser",
             Router: "/",
             AllowHTTPMethods: []string{"put"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:UserController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:UserController"],
+        beego.ControllerComments{
+            Method: "GetUser",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

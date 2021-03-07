@@ -1,7 +1,7 @@
 package requests
 
 type RequestCreateAccount struct {
-	Username string `json:"username" xml:"username"`
+	UserName string `json:"user_name" xml:"user_name""`
 	Pass     string `json:"pass" xml:"pass"`
 	Type     string `json:"type" xml:"type"`
 	Name     string `json:"name" xml:"name"`
@@ -9,4 +9,9 @@ type RequestCreateAccount struct {
 	Email    string `json:"email" xml:"email"`
 	Image    string `json:"image" xml:"image"`
 	Gender   string `json:"gender" xml:"gender"`
+}
+
+type RequestUpdateStatus struct {
+	UserName string `json:"user_name" xml:"user_name""`
+	Status   bool   `json:"status" xml:"status"`
 }

@@ -100,6 +100,91 @@
             }
         },
         "/admin/": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Lấy một danh sách người dùng",
+                "description": "Get List User",
+                "operationId": "AdminController.Get List User",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "page",
+                        "description": "page",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "size",
+                        "description": "size",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "status",
+                        "description": "status",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "cập nhật lại trạng thái người dùng",
+                "description": "Update Status",
+                "operationId": "AdminController.Update Status",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestUpdateStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "admin"
@@ -389,6 +474,110 @@
                         "required": true,
                         "schema": {
                             "$ref": "#/definitions/requests.RequestComment"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
+        "/discount/": {
+            "get": {
+                "tags": [
+                    "discount"
+                ],
+                "summary": "Lấy danh sách giảm giá",
+                "description": "Get List Discount",
+                "operationId": "DiscountController.Get List Discount",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "discount"
+                ],
+                "summary": "sửa một giảm giá",
+                "description": "Update Discount",
+                "operationId": "DiscountController.Update Discount",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "category",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestDis"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "discount"
+                ],
+                "summary": "Tạo một loại giảm giá",
+                "description": "Create Discount",
+                "operationId": "DiscountController.Create Discount",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestDis"
                         }
                     }
                 ],
@@ -731,6 +920,34 @@
             }
         },
         "/user/": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Lấy một thông tin người dùng",
+                "description": "Get Info User",
+                "operationId": "UserController.Get Info User",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "user"
@@ -771,11 +988,11 @@
         }
     },
     "definitions": {
-        "871.0xc000622ba0.false": {
+        "871.0xc0006c8f30.false": {
             "title": "false",
             "type": "object"
         },
-        "997.0xc000622c30.false": {
+        "997.0xc0006c8fc0.false": {
             "title": "false",
             "type": "object"
         },
@@ -913,7 +1130,7 @@
                 "type": {
                     "type": "string"
                 },
-                "username": {
+                "user_name": {
                     "type": "string"
                 }
             }
@@ -956,6 +1173,20 @@
                 },
                 "unit": {
                     "type": "string"
+                }
+            }
+        },
+        "requests.RequestDis": {
+            "title": "RequestDis",
+            "type": "object",
+            "properties": {
+                "rank": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "rate": {
+                    "type": "number",
+                    "format": "float"
                 }
             }
         },
@@ -1051,6 +1282,18 @@
                 }
             }
         },
+        "requests.RequestUpdateStatus": {
+            "title": "RequestUpdateStatus",
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "boolean"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        },
         "requests.RequestUser": {
             "title": "RequestUser",
             "type": "object",
@@ -1090,7 +1333,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/997.0xc000622c30.false"
+                    "$ref": "#/definitions/997.0xc0006c8fc0.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -1115,7 +1358,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/871.0xc000622ba0.false"
+                    "$ref": "#/definitions/871.0xc0006c8f30.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"

@@ -15,13 +15,17 @@ type Account struct {
 	Pass     string `json:"pass" xml:"pass"`
 	Id       int    `json:"id" xml:"id"`
 	Type     string `json:"type" xml:"type"`
+	Status   bool   `json:"status" xnl:"status"`
 }
 
 func (this *Account) Login(req requests.RequestLogin) (string, string, error) {
 	a := Account{}
-	err = db.QueryRow(queries.GetAccount(req.Username)).Scan(&a.Username, &a.Pass, &a.Id, &a.Type)
+	err = db.QueryRow(queries.GetAccount(req.Username)).Scan(&a.Username, &a.Pass, &a.Id, &a.Type, &a.Status)
 	if err != nil {
 		return "", "", err
+	}
+	if a.Status == false {
+		return "", "", errors.New("account is deactive")
 	}
 	if a.Pass == req.Pass {
 		data := "hehe" + a.Pass + strconv.FormatInt(time.Now().Unix(), 10)
@@ -53,11 +57,11 @@ func (this *Account) Register(req requests.RequestRegister) error {
 
 	id, err := val.LastInsertId()
 
-	data, err = db.Prepare("INSERT INTO Account(Username, Pass, Id, type) VALUES(?, ?, ?, ?);")
+	data, err = db.Prepare("INSERT INTO Account(Username, Pass, Id, type, status) VALUES(?, ?, ?, ?, ?);")
 	if err != nil {
 		return err
 	}
-	_, err = data.Exec(req.Username, req.Pass, id, "user")
+	_, err = data.Exec(req.Username, req.Pass, id, "user", "1")
 	if err != nil {
 		return err
 	}

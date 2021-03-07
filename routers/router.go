@@ -52,6 +52,11 @@ func init() {
 				&controllers.RateController{},
 			),
 		),
+		beego.NSNamespace("/discount",
+			beego.NSInclude(
+				&controllers.DiscountController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }
