@@ -16,6 +16,7 @@ type VendorController struct {
 
 //@Title Get List Vendor
 //@Description Get List Vendor
+// @Params token header string true "Token"
 //@Summary Lấy danh sách nhà cung cấp
 //@Success 200 {object} responses.ResponseArray
 //@Failure 404 {object} responses.ResponseArray

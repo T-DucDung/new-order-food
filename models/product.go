@@ -95,7 +95,7 @@ func (this *Product) UpdateRemaining(pid string, total int, sold int) error {
 	if err != nil {
 		return err
 	}
-	_, err = data.Exec(total, pid, sold)
+	_, err = data.Exec(total, sold, pid)
 	if err != nil {
 		return err
 	}
@@ -159,4 +159,13 @@ func (this *Product) UpdateRate(pid int, last string, cur string) error {
 		return err
 	}
 	return nil
+}
+
+func (this *Product) CheckExist(pid int) (bool, error) {
+	var check bool
+	err = db.QueryRow(queries.GetExist(strconv.Itoa(pid))).Scan(&check)
+	if err != nil {
+		return false, err
+	}
+	return check, nil
 }

@@ -160,6 +160,24 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["new-order-food/controllers:ImportController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:ImportController"],
+        beego.ControllerComments{
+            Method: "GetListImport",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:ImportController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:ImportController"],
+        beego.ControllerComments{
+            Method: "CreateImport",
+            Router: "/",
+            AllowHTTPMethods: []string{"post"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["new-order-food/controllers:OrderController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:OrderController"],
         beego.ControllerComments{
             Method: "PayOrder",
@@ -255,6 +273,33 @@ func init() {
             Method: "GetUser",
             Router: "/",
             AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:VendorController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:VendorController"],
+        beego.ControllerComments{
+            Method: "GetListVendor",
+            Router: "/",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:VendorController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:VendorController"],
+        beego.ControllerComments{
+            Method: "UpDateVendor",
+            Router: "/",
+            AllowHTTPMethods: []string{"put"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["new-order-food/controllers:VendorController"] = append(beego.GlobalControllerRouter["new-order-food/controllers:VendorController"],
+        beego.ControllerComments{
+            Method: "CreateCategory",
+            Router: "/",
+            AllowHTTPMethods: []string{"post"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})

@@ -81,12 +81,12 @@ func (this *Order) GetListOrder(uid string) ([]responses.OrderRes, error) {
 		lo = append(lo, o)
 	}
 
-	for _, item := range lo {
+	for index, item := range lo {
 		lod, err := getOrderDetail(strconv.Itoa(item.Id))
 		if err != nil {
 			return nil, err
 		}
-		item.Detail = lod
+		lo[index].Detail = lod
 	}
 
 	return lo, nil

@@ -57,6 +57,16 @@ func init() {
 				&controllers.DiscountController{},
 			),
 		),
+		beego.NSNamespace("/vendor",
+			beego.NSInclude(
+				&controllers.VendorController{},
+			),
+		),
+		beego.NSNamespace("/import",
+			beego.NSInclude(
+				&controllers.ImportController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

@@ -27,3 +27,7 @@ func GetRateProduct(pid string) string {
 func GetAllRate(pid string) string {
 	return "select p.Rate1, p.Rate2, p.Rate3, p.Rate4, p.Rate5 FROM Product p where p.Id = " + pid
 }
+
+func GetExist(pid string) string {
+	return ("select exists(select p.Id from Product p where p.Id = " + pid + ")")
+}

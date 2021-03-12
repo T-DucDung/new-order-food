@@ -594,6 +594,73 @@
                 }
             }
         },
+        "/import/": {
+            "get": {
+                "tags": [
+                    "import"
+                ],
+                "summary": "Lấy danh sách nhập",
+                "description": "Get List Import",
+                "operationId": "ImportController.Get List Import",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "import"
+                ],
+                "summary": "Tạo đơn nhập",
+                "description": "Create Import",
+                "operationId": "ImportController.Create Import",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestImport"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
         "/order/": {
             "put": {
                 "tags": [
@@ -985,14 +1052,118 @@
                     }
                 }
             }
+        },
+        "/vendor/": {
+            "get": {
+                "tags": [
+                    "vendor"
+                ],
+                "summary": "Lấy danh sách nhà cung cấp",
+                "description": "Get List Vendor",
+                "operationId": "VendorController.Get List Vendor",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "vendor"
+                ],
+                "summary": "sửa một nhà cung cấp",
+                "description": "Update Vendor",
+                "operationId": "VendorController.Update Vendor",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "category",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Vendor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "vendor"
+                ],
+                "summary": "Tạo một nhà cung cấp",
+                "description": "Create Vendor",
+                "operationId": "VendorController.Create Vendor",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "data",
+                        "description": "data",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/requests.RequestVendor"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseBool"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
         }
     },
     "definitions": {
-        "871.0xc0006c8f30.false": {
+        "871.0xc0006b6ea0.false": {
             "title": "false",
             "type": "object"
         },
-        "997.0xc0006c8fc0.false": {
+        "997.0xc0006b6f30.false": {
             "title": "false",
             "type": "object"
         },
@@ -1078,6 +1249,28 @@
                 }
             }
         },
+        "models.Vendor": {
+            "title": "Vendor",
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "requests.RequestCart": {
             "title": "RequestCart",
             "type": "object",
@@ -1149,27 +1342,8 @@
                 "image": {
                     "type": "string"
                 },
-                "is_sale": {
-                    "type": "boolean"
-                },
                 "name": {
                     "type": "string"
-                },
-                "price": {
-                    "type": "number",
-                    "format": "float"
-                },
-                "remaining": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "sale_price": {
-                    "type": "number",
-                    "format": "float"
-                },
-                "sold": {
-                    "type": "integer",
-                    "format": "int64"
                 },
                 "unit": {
                     "type": "string"
@@ -1187,6 +1361,47 @@
                 "rate": {
                     "type": "number",
                     "format": "float"
+                }
+            }
+        },
+        "requests.RequestImport": {
+            "title": "RequestImport",
+            "type": "object",
+            "properties": {
+                "detail": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/requests.RequestImportDetail"
+                    }
+                },
+                "total": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "vendor_id": {
+                    "type": "integer",
+                    "format": "int64"
+                }
+            }
+        },
+        "requests.RequestImportDetail": {
+            "title": "RequestImportDetail",
+            "type": "object",
+            "properties": {
+                "price": {
+                    "type": "number",
+                    "format": "float"
+                },
+                "product_id": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "quantity": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "unit": {
+                    "type": "string"
                 }
             }
         },
@@ -1315,6 +1530,24 @@
                 }
             }
         },
+        "requests.RequestVendor": {
+            "title": "RequestVendor",
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "responses.Err": {
             "title": "Err",
             "type": "object",
@@ -1333,7 +1566,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/997.0xc0006c8fc0.false"
+                    "$ref": "#/definitions/997.0xc0006b6f30.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -1358,7 +1591,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/871.0xc0006c8f30.false"
+                    "$ref": "#/definitions/871.0xc0006b6ea0.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
