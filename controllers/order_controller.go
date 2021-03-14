@@ -136,10 +136,10 @@ func (this *OrderController) GetListOrderForAdmin() {
 //@Description Update Category
 //@Summary sửa đơn hàng
 // @Params token header string true "Token"
-// @Param id body string true "id order"
+// @Param id path string true "id"
 //@Success 200 {object} responses.ResponseBool
 //@Failure 404 {object} responses.ResponseBool
-//@router / [put]
+//@router /:id [put]
 func (this *OrderController) UpDateOrder() {
 	defer this.ServeJSON()
 	idtype := this.Ctx.Request.Header.Get("type")
@@ -150,17 +150,9 @@ func (this *OrderController) UpDateOrder() {
 		}
 		return
 	}
-	var id string
-	err := json.Unmarshal(this.Ctx.Input.RequestBody, &id)
-	if err != nil {
-		log.Println("controllers/order_controller.go:157 ", err)
-		this.Data["json"] = responses.ResponseBool{
-			Error: responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-
-	err = services.UpDateOrder(id)
+	id := this.GetString(":id")
+	log.Println("id ", id)
+	err := services.UpDateOrder(id)
 	if err != nil {
 		log.Println("controllers/order_controller.go:166 ", err)
 		this.Data["json"] = responses.ResponseBool{

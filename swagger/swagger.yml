@@ -445,32 +445,6 @@ paths:
         "404":
           description: '{object} responses.ResponseBool'
   /order/:
-    put:
-      tags:
-      - order
-      summary: sửa đơn hàng
-      description: Update Category
-      operationId: OrderController.Update Category
-      parameters:
-      - in: header
-        name: token
-        description: Token
-        required: true
-        type: string
-      - in: body
-        name: id
-        description: id order
-        required: true
-        schema:
-          type: string
-        type: string
-      responses:
-        "200":
-          description: ""
-          schema:
-            $ref: '#/definitions/responses.ResponseBool'
-        "404":
-          description: '{object} responses.ResponseBool'
     post:
       tags:
       - order
@@ -489,6 +463,31 @@ paths:
         required: true
         schema:
           $ref: '#/definitions/requests.RequestOrder'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseBool'
+        "404":
+          description: '{object} responses.ResponseBool'
+  /order/{id}:
+    put:
+      tags:
+      - order
+      summary: sửa đơn hàng
+      description: Update Category
+      operationId: OrderController.Update Category
+      parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
+      - in: path
+        name: id
+        description: id
+        required: true
+        type: string
       responses:
         "200":
           description: ""
@@ -662,6 +661,76 @@ paths:
             $ref: '#/definitions/responses.ResponseBool'
         "404":
           description: '{object} responses.ResponseBool'
+  /sale/:
+    get:
+      tags:
+      - sale
+      summary: Lấy danh sách sale
+      description: Get List Sale
+      operationId: SaleController.Get List Sale
+      parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseArray'
+        "404":
+          description: '{object} responses.ResponseArray'
+    post:
+      tags:
+      - sale
+      summary: Tạo sale
+      description: Create sale
+      operationId: SaleController.Create Sale
+      parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
+      - in: body
+        name: data
+        description: data
+        required: true
+        schema:
+          $ref: '#/definitions/requests.RequestSale'
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseBool'
+        "404":
+          description: '{object} responses.ResponseBool'
+  /sale/{id}:
+    put:
+      tags:
+      - sale
+      summary: sửa sale
+      description: Update Sale
+      operationId: SaleController.Update Sale
+      parameters:
+      - in: header
+        name: token
+        description: Token
+        required: true
+        type: string
+      - in: path
+        name: id
+        description: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ""
+          schema:
+            $ref: '#/definitions/responses.ResponseBool'
+        "404":
+          description: '{object} responses.ResponseBool'
   /user/:
     get:
       tags:
@@ -778,10 +847,10 @@ paths:
         "404":
           description: '{object} responses.ResponseBool'
 definitions:
-  871.0xc0006b6ea0.false:
+  871.0xc0005193b0.false:
     title: "false"
     type: object
-  997.0xc0006b6f30.false:
+  997.0xc000519440.false:
     title: "false"
     type: object
   models.Category:
@@ -912,6 +981,16 @@ definitions:
         type: string
       unit:
         type: string
+  requests.RequestDetailSale:
+    title: RequestDetailSale
+    type: object
+    properties:
+      product_id:
+        type: integer
+        format: int64
+      sale_price:
+        type: number
+        format: float
   requests.RequestDis:
     title: RequestDis
     type: object
@@ -1014,6 +1093,14 @@ definitions:
         type: string
       username:
         type: string
+  requests.RequestSale:
+    title: RequestSale
+    type: object
+    properties:
+      detail:
+        type: array
+        items:
+          $ref: '#/definitions/requests.RequestDetailSale'
   requests.RequestUpdateStatus:
     title: RequestUpdateStatus
     type: object
@@ -1062,7 +1149,7 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/997.0xc0006b6f30.false'
+        $ref: '#/definitions/997.0xc000519440.false'
       error:
         $ref: '#/definitions/responses.Err'
       total_count:
@@ -1079,6 +1166,6 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/871.0xc0006b6ea0.false'
+        $ref: '#/definitions/871.0xc0005193b0.false'
       error:
         $ref: '#/definitions/responses.Err'

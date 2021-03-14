@@ -102,6 +102,18 @@ func (this *Product) UpdateRemaining(pid string, total int, sold int) error {
 	return nil
 }
 
+func (this *Product) UpdateSalePrice(pid string, salePrice float32, status bool) error {
+	data, err := db.Prepare("UPDATE Product as p SET p.SalePrice = ?, p.IsSale = ? WHERE p.Id = ?;")
+	if err != nil {
+		return err
+	}
+	_, err = data.Exec(salePrice, status, pid)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (this *Product) GetPrice(pid string) (bool, float32, float32, error) {
 	var price, salePrice float32
 	var isSale bool

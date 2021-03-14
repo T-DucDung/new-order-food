@@ -67,6 +67,11 @@ func init() {
 				&controllers.ImportController{},
 			),
 		),
+		beego.NSNamespace("/sale",
+			beego.NSInclude(
+				&controllers.SaleController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

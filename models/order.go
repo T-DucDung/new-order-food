@@ -8,8 +8,8 @@ import (
 )
 
 var mapStatus = map[int]string{
-	1 : "Chờ Giao",
-	2 : "Hoàn Thành",
+	1 : "Waiting for shipment",
+	2 : "Done",
 }
 
 type Order struct {
@@ -131,12 +131,12 @@ func (this *Order) GetListOrderForAdmin() ([]responses.OrderRes, error) {
 		lo = append(lo, o)
 	}
 
-	for _, item := range lo {
+	for index, item := range lo {
 		lod, err := getOrderDetail(strconv.Itoa(item.Id))
 		if err != nil {
 			return nil, err
 		}
-		item.Detail = lod
+		lo[index].Detail = lod
 	}
 
 	return lo, nil
