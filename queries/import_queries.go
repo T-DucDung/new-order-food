@@ -5,5 +5,5 @@ func GetListImport() string {
 }
 
 func GetListImportDetail(id string) string {
-	return "select p.Name, id.Quantity, id.Unit, id.Price from ImportDetail id , Product p where id.ProductId = p.Id and id.IdImport = " + id
+	return "select p.Name, id.Quantity, id.Price from ImportDetail id , Product p where id.ProductId = p.Id and id.IdImport = " + id
 }

@@ -96,7 +96,7 @@ func (this *CategoryController) CreateCategory() {
 		}
 		return
 	}
-	var nameCate string
+	var nameCate map[string]string
 	err := json.Unmarshal(this.Ctx.Input.RequestBody, &nameCate)
 	log.Println("nameCate ", nameCate)
 	if err != nil {
@@ -106,7 +106,7 @@ func (this *CategoryController) CreateCategory() {
 		}
 		return
 	}
-	err = services.CreateCategory(nameCate)
+	err = services.CreateCategory(nameCate["name"])
 	if err != nil {
 		log.Println("controllers/category_controller.go:111 ", err)
 		this.Data["json"] = responses.ResponseBool{

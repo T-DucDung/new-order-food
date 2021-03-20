@@ -22,7 +22,6 @@ func Import(req requests.RequestImport, id int) error {
 	for _, item := range req.Detail {
 		detail := models.ImportDetail{
 			ProductId: item.ProductId,
-			Unit:      item.Unit,
 			Quantity:  item.Quantity,
 			Price:     item.Price,
 		}

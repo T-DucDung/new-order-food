@@ -181,3 +181,7 @@ func (this *Product) CheckExist(pid int) (bool, error) {
 	}
 	return check, nil
 }
+
+func (this *Product) Search(word string) ([]responses.ProductRes, error) {
+	return this.GetListProduct(queries.GetSearch(word))
+}

@@ -37,11 +37,11 @@ func (this *Import) Import() error {
 	p := Product{}
 
 	for _, item := range this.Detail {
-		data, err = db.Prepare("insert into ImportDetail (IdImport,ProductId,Quantity,Price,Unit) VALUES(?, ?, ?, ?, ?);")
+		data, err = db.Prepare("insert into ImportDetail (IdImport,ProductId,Quantity,Price) VALUES(?, ?, ?, ?);")
 		if err != nil {
 			return err
 		}
-		_, err = data.Exec(id, item.ProductId, item.Quantity, item.Price, item.Unit)
+		_, err = data.Exec(id, item.ProductId, item.Quantity, item.Price)
 		if err != nil {
 			return err
 		}
@@ -95,7 +95,7 @@ func getImportDetail(id string) ([]responses.ImportDetailRes , error){
 
 	for results.Next() {
 		o := responses.ImportDetailRes{}
-		err = results.Scan(&o.Name, &o.Quantity, &o.Unit, &o.Price)
+		err = results.Scan(&o.Name, &o.Quantity, &o.Price)
 		if err != nil {
 			return nil, err
 		}

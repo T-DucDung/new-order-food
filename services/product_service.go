@@ -62,3 +62,8 @@ func GetListProduct(pos, count int, cateid string) ([]responses.ProductRes, int,
 func UpDateProduct(p models.Product) error {
 	return p.UpDateProduct()
 }
+
+func Search(word string) ([]responses.ProductRes, error) {
+	p := models.Product{}
+	return p.Search(word)
+}

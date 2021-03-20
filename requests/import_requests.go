@@ -8,7 +8,6 @@ type RequestImport struct {
 
 type RequestImportDetail struct {
 	ProductId int     `json:"product_id" xml:"product_id"`
-	Unit      string  `json:"unit" xml:"unit"`
 	Quantity  int     `json:"quantity" xml:"quantity"`
 	Price     float32 `json:"price" xml:"price"`
 }

@@ -73,7 +73,7 @@ func (this *Order) GetListOrder(uid string) ([]responses.OrderRes, error) {
 	for results.Next() {
 		o := responses.OrderRes{}
 		status := 0
-		err = results.Scan(&o.Id, &o.Name, &o.Number, &o.Total, &status, &o.LastUpdate)
+		err = results.Scan(&o.Id, &o.Name, &o.Number, &o.Address, &o.Total, &status, &o.LastUpdate)
 		if err != nil {
 			return nil, err
 		}

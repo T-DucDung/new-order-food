@@ -29,7 +29,7 @@ func PayOrder(req requests.RequestOrder, uid int) error {
 		return err
 	}
 
-	total = total * (rate / 100)
+	total = total - (total * (rate / 100))
 
 	err = order.PayOrder(order, lod, total)
 	if err != nil {

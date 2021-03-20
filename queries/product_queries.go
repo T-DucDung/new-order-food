@@ -31,3 +31,7 @@ func GetAllRate(pid string) string {
 func GetExist(pid string) string {
 	return ("select exists(select p.Id from Product p where p.Id = " + pid + ")")
 }
+
+func GetSearch(word string) string {
+	return "SELECT p.Id, p.Name, p.Image, p.Price, p.IsSale, p.Unit, p.Remaining, p.SalePrice, p.Description, p.Sold, p.CategoryId, p.RateAvg from Product p where p.Name like '%" + word + "%'"
+}

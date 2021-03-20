@@ -10,12 +10,14 @@ import (
 )
 
 var mapNotAuthUrls = map[string]string{
-	"/v1/product/list":     "GET",
-	"/v1/category/":        "GET",
-	"/v1/account/login":    "POST",
-	"/v1/account/register": "POST",
-	"/v1/account/":         "GET",
-	"/v1/comment/":         "GET",
+	"/v1/product/list":             "GET",
+	"/v1/product/search":           "GET",
+	"/v1/category/":                "GET",
+	"/v1/account/login":            "POST",
+	"/v1/account/register":         "POST",
+	"/v1/account/":                 "GET",
+	"/v1/comment/":                 "GET",
+	"/v1/statistic/total-top-sale": "GET",
 }
 
 var mapPrefix = map[string]string{

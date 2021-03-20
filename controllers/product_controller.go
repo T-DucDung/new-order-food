@@ -94,7 +94,7 @@ func (this *ProductController) GetListProduct() {
 	cateid := this.GetString("cateid")
 	page, err := this.GetInt("page", 1)
 	size, err := this.GetInt("size", 10)
-	log.Println(page,size,cateid)
+	log.Println(page, size, cateid)
 	lp, count, err := services.GetListProduct((page-1)*size, size, cateid)
 	if err != nil {
 		log.Println("controllers/product_controller.go:100 ", err)
@@ -149,5 +149,32 @@ func (this *ProductController) UpDateProduct() {
 	}
 	this.Data["json"] = responses.ResponseBool{
 		Error: responses.NewErr(responses.Success),
+	}
+}
+
+//@Title Get List Product Search
+//@Description Get List Product Search
+//@Summary Tìm kiếm danh sách sản phẩm
+// @Param word query string true "word"
+//@Success 200 {object} responses.ResponseArray
+//@Failure 404 {object} responses.ResponseArray
+//@router /search [get]
+func (this *ProductController) GetListSearch() {
+	defer this.ServeJSON()
+	word := this.GetString("word")
+	lp, err := services.Search(word)
+	if err != nil {
+		log.Println("controllers/product_controller.go:167 ", err)
+		this.Data["json"] = responses.ResponseArray{
+			Data:       nil,
+			TotalCount: 0,
+			Error:      responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+	this.Data["json"] = responses.ResponseArray{
+		Data:       lp,
+		TotalCount: len(lp),
+		Error:      responses.NewErr(responses.Success),
 	}
 }

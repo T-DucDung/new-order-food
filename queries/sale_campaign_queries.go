@@ -1,7 +1,7 @@
 package queries
 
 func GetAllSale() string {
-	return "SELECT sc.Id, u.Name, sc.LastUpDate, sc.Status FROM SaleCampaign sc, Users u where u.Id = sc.IdAdmin"
+	return "SELECT sc.Id, u.Name, sc.LastUpDate, sc.Status FROM SaleCampaign sc, Users u where u.Id = sc.IdAdmin order by sc.LastUpDate desc"
 }
 
 func GetDetailSale(id string) string {

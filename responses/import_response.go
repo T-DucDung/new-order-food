@@ -11,7 +11,6 @@ type ImportRes struct {
 
 type ImportDetailRes struct {
 	Name     string  `json:"name"`
-	Unit     string  `json:"unit"`
 	Quantity int     `json:"quantity"`
 	Price    float32 `json:"price"`
 }

@@ -916,6 +916,36 @@
                 }
             }
         },
+        "/product/search": {
+            "get": {
+                "tags": [
+                    "product"
+                ],
+                "summary": "Tìm kiếm danh sách sản phẩm",
+                "description": "Get List Product Search",
+                "operationId": "ProductController.Get List Product Search",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "word",
+                        "description": "word",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseArray"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseArray"
+                    }
+                }
+            }
+        },
         "/product/{pid}": {
             "get": {
                 "tags": [
@@ -1085,6 +1115,214 @@
                     },
                     "404": {
                         "description": "{object} responses.ResponseBool"
+                    }
+                }
+            }
+        },
+        "/statistic/ex-import": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Xuất excel nhập",
+                "description": "Get Excel Import",
+                "operationId": "StatisticController.Get Excel Import",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "startTime",
+                        "description": "Start Time",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "endTime",
+                        "description": "End Time",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
+        "/statistic/ex-order": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Xuất excel",
+                "description": "Get Excel",
+                "operationId": "StatisticController.Get Excel",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "query",
+                        "name": "startTime",
+                        "description": "Start Time",
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    {
+                        "in": "query",
+                        "name": "endTime",
+                        "description": "End Time",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
+        "/statistic/total-acc": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Lấy tổng tài khoản khách hàng",
+                "description": "Get Total Account",
+                "operationId": "StatisticController.Get Total Account",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
+        "/statistic/total-order": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Lấy tổng order",
+                "description": "Get Total Order",
+                "operationId": "StatisticController.Get Total Order",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
+        "/statistic/total-revenu": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Lấy tổng thu nhập",
+                "description": "Get Total Revenu",
+                "operationId": "StatisticController.Get Total Revenu",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
+        "/statistic/total-top-sale": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Lấy sản phẩm bán chạy",
+                "description": "Get Top Sale",
+                "operationId": "StatisticController.Get Top Sale",
+                "parameters": [
+                    {
+                        "in": "query",
+                        "name": "num",
+                        "description": "num",
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
                     }
                 }
             }
@@ -1262,11 +1500,11 @@
         }
     },
     "definitions": {
-        "871.0xc0005193b0.false": {
+        "871.0xc000610570.false": {
             "title": "false",
             "type": "object"
         },
-        "997.0xc000519440.false": {
+        "997.0xc000610600.false": {
             "title": "false",
             "type": "object"
         },
@@ -1516,9 +1754,6 @@
                 "quantity": {
                     "type": "integer",
                     "format": "int64"
-                },
-                "unit": {
-                    "type": "string"
                 }
             }
         },
@@ -1695,7 +1930,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/997.0xc000519440.false"
+                    "$ref": "#/definitions/997.0xc000610600.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -1720,7 +1955,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/871.0xc0005193b0.false"
+                    "$ref": "#/definitions/871.0xc000610570.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
