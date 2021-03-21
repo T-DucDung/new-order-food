@@ -35,6 +35,29 @@ func PayOrder(req requests.RequestOrder, uid int) error {
 	if err != nil {
 		return err
 	}
+
+	total, err = GetTotal(strconv.Itoa(uid))
+	if err != nil {
+		return err
+	}
+
+	discount := models.Discount{}
+	newRank, err := discount.GetRank(total)
+	if err != nil {
+		return err
+	}
+	
+	if newRank != rank {
+		u :=  models.User{
+			Id:   uid,
+			Rank: newRank,
+		}
+		err = u.UpRank()
+		if err != nil {
+			return err
+		}
+	}
+
 	return Del(uid)
 }
 
@@ -84,4 +107,9 @@ func GetListOrderForAdmin() ([]responses.OrderRes, error) {
 func UpDateOrder(id string) error {
 	o := models.Order{}
 	return o.UpdateOrder(id)
+}
+
+func GetTotal(id string) (float32, error) {
+	o := models.Order{}
+	return o.GetTotal(id)
 }

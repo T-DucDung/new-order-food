@@ -5,4 +5,5 @@ type DiscountRes struct {
 	Rate       int   `json:"rate" xml:"rate"`
 	IdAdmin    int   `json:"id_admin" xml:"id_admin"`
 	LastUpDate int64 `json:"last_up_date" xml:"last_up_date"`
+	Accumulate int     `json:"accumulate" xml:"accumulate"`
 }

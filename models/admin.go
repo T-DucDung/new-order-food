@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"new-order-food/hash"
 	"new-order-food/requests"
 )
 
@@ -42,7 +43,8 @@ func (this *Admin) CreateAccount(req requests.RequestCreateAccount) error {
 		if err != nil {
 			return err
 		}
-		_, err = data.Exec(req.UserName, req.Pass, id, "admin", "1")
+		hashP , _ := hash.Hash(req.Pass)
+		_, err = data.Exec(req.UserName, hashP, id, "admin", "1")
 		if err != nil {
 			return err
 		}
@@ -72,11 +74,11 @@ func (this *Admin) GetAllUser(query string) ([]User, error) {
 }
 
 func (this *Admin) UpdateStatus(req requests.RequestUpdateStatus) error {
-	data, err := db.Prepare("Update Account set Status = ? where UserName = ?")
+	data, err := db.Prepare("Update Account set Status = ? where Id = ?")
 	if err != nil {
 		return err
 	}
-	_, err = data.Exec(req.Status, req.UserName)
+	_, err = data.Exec(req.Status, req.IdUser)
 	if err != nil {
 		return err
 	}

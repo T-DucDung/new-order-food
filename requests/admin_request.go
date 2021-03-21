@@ -12,6 +12,6 @@ type RequestCreateAccount struct {
 }
 
 type RequestUpdateStatus struct {
-	UserName string `json:"user_name" xml:"user_name""`
-	Status   bool   `json:"status" xml:"status"`
+	IdUser string `json:"id_user" xml:"id_user"`
+	Status bool   `json:"status" xml:"status"`
 }

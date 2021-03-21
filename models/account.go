@@ -27,7 +27,9 @@ func (this *Account) Login(req requests.RequestLogin) (string, string, error) {
 	if a.Status == false {
 		return "", "", errors.New("account is deactive")
 	}
-	if a.Pass == req.Pass {
+	hashP, _ := hash.Hash(req.Pass)
+	log.Println(hashP)
+	if hashP == a.Pass {
 		data := "hehe" + a.Pass + strconv.FormatInt(time.Now().Unix(), 10)
 		token, err := hash.Hash(data)
 		if err != nil {
@@ -61,7 +63,8 @@ func (this *Account) Register(req requests.RequestRegister) error {
 	if err != nil {
 		return err
 	}
-	_, err = data.Exec(req.Username, req.Pass, id, "user", "1")
+	hashP , _ := hash.Hash(req.Pass)
+	_, err = data.Exec(req.Username, hashP, id, "user", "1")
 	if err != nil {
 		return err
 	}

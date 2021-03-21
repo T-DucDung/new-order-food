@@ -11,6 +11,7 @@ type Discount struct {
 	Rate       float32 `json:"rate" xml:"rate"`
 	IdAdmin    int     `json:"id_admin" xml:"id_admin"`
 	LastUpDate int64   `json:"last_up_date" xml:"last_up_date"`
+	Accumulate int     `json:"accumulate" xml:"accumulate"`
 }
 
 func (this *Discount) GetListDiscount() ([]responses.DiscountRes, error) {
@@ -23,7 +24,7 @@ func (this *Discount) GetListDiscount() ([]responses.DiscountRes, error) {
 
 	for results.Next() {
 		d := responses.DiscountRes{}
-		err = results.Scan(&d.Rank, &d.Rate, &d.IdAdmin, &d.LastUpDate)
+		err = results.Scan(&d.Rank, &d.Rate, &d.IdAdmin, &d.LastUpDate, &d.Accumulate)
 		if err != nil {
 			return nil, err
 		}
@@ -34,11 +35,11 @@ func (this *Discount) GetListDiscount() ([]responses.DiscountRes, error) {
 }
 
 func (this *Discount) UpDateDiscount() error {
-	data, err := db.Prepare("UPDATE Discount as d SET d.Rate = ? WHERE d.Rank = ?;")
+	data, err := db.Prepare("UPDATE Discount as d SET d.Rate = ?, d.Accumulate = ? WHERE d.Rank = ?;")
 	if err != nil {
 		return err
 	}
-	_, err = data.Exec(this.Rate, this.Rank)
+	_, err = data.Exec(this.Rate, this.Accumulate, this.Rank)
 	if err != nil {
 		return err
 	}
@@ -47,11 +48,11 @@ func (this *Discount) UpDateDiscount() error {
 }
 
 func (this *Discount) CreateDiscount() error {
-	data, err := db.Prepare("insert into Discount (`Rank` ,Rate,IdAdmin,LastUpDate) VALUES(?, ?, ?, ?);")
+	data, err := db.Prepare("insert into Discount (`Rank` ,Rate,IdAdmin,LastUpDate,Accumulate) VALUES(?, ?, ?, ?, ?);")
 	if err != nil {
 		return err
 	}
-	_, err = data.Exec(this.Rank, this.Rate, this.IdAdmin, this.LastUpDate)
+	_, err = data.Exec(this.Rank, this.Rate, this.IdAdmin, this.LastUpDate, this.Accumulate)
 	if err != nil {
 		return err
 	}
@@ -65,4 +66,13 @@ func (this *Discount) GetRateDis(rank string) (float32, error) {
 		return 0, err
 	}
 	return rate, nil
+}
+
+func (this *Discount) GetRank(total float32) (int, error) {
+	var rank int
+	err = db.QueryRow(queries.GetRank(total)).Scan(&rank)
+	if err != nil {
+		return 0, err
+	}
+	return rank, nil
 }

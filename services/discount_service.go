@@ -29,6 +29,7 @@ func CreateDiscount(req requests.RequestDis, uid int) error {
 		Rate:       req.Rate,
 		IdAdmin:    uid,
 		LastUpDate: time.Now().Unix(),
+		Accumulate: req.Accumulate,
 	}
 	return discount.CreateDiscount()
 }

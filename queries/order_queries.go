@@ -11,3 +11,7 @@ func GetListOrderDetail(id string) string {
 func GetListOrderForAdmin() string {
 	return "select o.Id, o.Name, o.Phone, o.Address, o.Total, o.CurrentStatus, o.LastUpDate from `Order` o order by o.CurrentStatus"
 }
+
+func GetTotal(id string) string {
+	return "SELECT SUM(o.Total) from `Order` o where o.UserId = " + id
+}

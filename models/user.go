@@ -35,3 +35,15 @@ func (this *User) GetUser() (User, error) {
 	}
 	return u, nil
 }
+
+func (this *User) UpRank() error {
+	data, err := db.Prepare("UPDATE Users as u set u.Rank = ? WHERE u.Id = ?")
+	if err != nil {
+		return err
+	}
+	_, err = data.Exec(this.Rank, this.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

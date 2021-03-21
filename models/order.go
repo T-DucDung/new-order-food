@@ -8,8 +8,8 @@ import (
 )
 
 var mapStatus = map[int]string{
-	1 : "Waiting for shipment",
-	2 : "Done",
+	1: "Waiting for shipment",
+	2: "Done",
 }
 
 type Order struct {
@@ -92,7 +92,7 @@ func (this *Order) GetListOrder(uid string) ([]responses.OrderRes, error) {
 	return lo, nil
 }
 
-func getOrderDetail(id string) ([]responses.OrderDetailRes, error){
+func getOrderDetail(id string) ([]responses.OrderDetailRes, error) {
 	lod := []responses.OrderDetailRes{}
 
 	results, err := db.Query(queries.GetListOrderDetail(id))
@@ -152,4 +152,13 @@ func (this *Order) UpdateOrder(id string) error {
 		return err
 	}
 	return nil
+}
+
+func (this *Order) GetTotal(id string) (float32, error) {
+	var total float32
+	err = db.QueryRow(queries.GetTotal(id)).Scan(&total)
+	if err != nil {
+		return -1, err
+	}
+	return total, nil
 }

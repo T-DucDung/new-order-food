@@ -1500,11 +1500,11 @@
         }
     },
     "definitions": {
-        "871.0xc0005c8db0.false": {
+        "871.0xc000679d10.false": {
             "title": "false",
             "type": "object"
         },
-        "997.0xc0005c8e40.false": {
+        "997.0xc000679da0.false": {
             "title": "false",
             "type": "object"
         },
@@ -1709,6 +1709,10 @@
             "title": "RequestDis",
             "type": "object",
             "properties": {
+                "accumulate": {
+                    "type": "integer",
+                    "format": "int64"
+                },
                 "rank": {
                     "type": "integer",
                     "format": "int64"
@@ -1865,11 +1869,11 @@
             "title": "RequestUpdateStatus",
             "type": "object",
             "properties": {
+                "id_user": {
+                    "type": "string"
+                },
                 "status": {
                     "type": "boolean"
-                },
-                "user_name": {
-                    "type": "string"
                 }
             }
         },
@@ -1930,7 +1934,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/997.0xc0005c8e40.false"
+                    "$ref": "#/definitions/997.0xc000679da0.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -1955,7 +1959,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/871.0xc0005c8db0.false"
+                    "$ref": "#/definitions/871.0xc000679d10.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"

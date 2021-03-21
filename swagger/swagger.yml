@@ -1007,10 +1007,10 @@ paths:
         "404":
           description: '{object} responses.ResponseBool'
 definitions:
-  871.0xc0005c8db0.false:
+  871.0xc000679d10.false:
     title: "false"
     type: object
-  997.0xc0005c8e40.false:
+  997.0xc000679da0.false:
     title: "false"
     type: object
   models.Category:
@@ -1155,6 +1155,9 @@ definitions:
     title: RequestDis
     type: object
     properties:
+      accumulate:
+        type: integer
+        format: int64
       rank:
         type: integer
         format: int64
@@ -1263,10 +1266,10 @@ definitions:
     title: RequestUpdateStatus
     type: object
     properties:
+      id_user:
+        type: string
       status:
         type: boolean
-      user_name:
-        type: string
   requests.RequestUser:
     title: RequestUser
     type: object
@@ -1307,7 +1310,7 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/997.0xc0005c8e40.false'
+        $ref: '#/definitions/997.0xc000679da0.false'
       error:
         $ref: '#/definitions/responses.Err'
       total_count:
@@ -1324,6 +1327,6 @@ definitions:
     type: object
     properties:
       data:
-        $ref: '#/definitions/871.0xc0005c8db0.false'
+        $ref: '#/definitions/871.0xc000679d10.false'
       error:
         $ref: '#/definitions/responses.Err'
