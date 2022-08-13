@@ -1,18 +1,23 @@
 package models
 
 import (
+	"context"
 	"errors"
+	"go.mongodb.org/mongo-driver/bson"
+	"log"
 	"new-order-food/hash"
 	"new-order-food/requests"
 )
 
+//go:generate easytags $GOFILE json,xml,bson
+
 type Admin struct {
-	Id     int    `json:"id" xml:"id"`
-	Name   string `json:"name" xml:"name"`
-	Phone  string `json:"phone" xml:"phone"`
-	Email  string `json:"email" xml:"email"`
-	Image  string `json:"image" xml:"image"`
-	Gender string `json:"gender" xml:"gender"`
+	Id     int    `json:"id" xml:"id" bson:"id"`
+	Name   string `json:"name" xml:"name" bson:"name"`
+	Phone  string `json:"phone" xml:"phone" bson:"phone"`
+	Email  string `json:"email" xml:"email" bson:"email"`
+	Image  string `json:"image" xml:"image" bson:"image"`
+	Gender string `json:"gender" xml:"gender" bson:"gender"`
 }
 
 func (this *Admin) CreateAccount(req requests.RequestCreateAccount) error {
@@ -28,59 +33,82 @@ func (this *Admin) CreateAccount(req requests.RequestCreateAccount) error {
 			Gender:   req.Gender,
 		})
 	} else if req.Type == "admin" {
-		data, err := db.Prepare("INSERT INTO User(Name, Phone, Email, Image, Gender, Rank) VALUES(?, ?, ?, ?, ?, ?);")
+		id, err := getCurrentUserDocument()
 		if err != nil {
+			log.Println(err.Error(), "err.Error() models/admin.go:34")
 			return err
 		}
-		val, err := data.Exec(req.Name, req.Phone, req.Email, req.Image, req.Gender, "0")
+		_, err = getUserDocument().InsertOne(context.TODO(), User{
+			Id:     id,
+			Name:   req.Name,
+			Phone:  req.Phone,
+			Email:  req.Email,
+			Image:  req.Image,
+			Gender: req.Gender,
+			Rank:   1,
+		})
 		if err != nil {
+			log.Println(err.Error(), "err.Error() models/admin.go:48")
 			return err
 		}
-
-		id, err := val.LastInsertId()
-
-		data, err = db.Prepare("INSERT INTO Account(Username, Pass, Id, type, status) VALUES(?, ?, ?, ?, ?);")
+		hashP, _ := hash.Hash(req.Pass)
+		_, err = getUserDocument().InsertOne(context.TODO(), Account{
+			Username: req.UserName,
+			Pass:     hashP,
+			Id:       id,
+			Type:     "admin",
+			Status:   true,
+		})
 		if err != nil {
+			log.Println(err.Error(), "err.Error() models/admin.go:60")
 			return err
 		}
-		hashP , _ := hash.Hash(req.Pass)
-		_, err = data.Exec(req.UserName, hashP, id, "admin", "1")
-		if err != nil {
-			return err
-		}
-		return nil
 	}
 	return errors.New("account type not valid !")
 }
 
-func (this *Admin) GetAllUser(query string) ([]User, error) {
-	lu := []User{}
+func (this *Admin) GetAllUser(status string) ([]User, error) {
+	results := make([]User, 0)
 
-	results, err := db.Query(query)
+	b := bson.D{}
+	if status != "" {
+		b = bson.D{{"status", status}}
+	}
+
+	cur, err := getAccountDocument().Find(context.TODO(), b)
 	if err != nil {
-		return nil, err
+		log.Println(err.Error(), "err.Error() models/admin.go:73")
+		return []User{}, err
 	}
 
-	for results.Next() {
-		u := User{}
-		err = results.Scan(&u.Id, &u.Name, &u.Gender, &u.Image, &u.Email, &u.Phone, &u.Rank)
+	for cur.Next(context.TODO()) {
+		var elem Admin
+		err := cur.Decode(&elem)
 		if err != nil {
-			return nil, err
+			log.Println(err.Error(), "err.Error() models/admin.go:80")
+			return []User{}, err
 		}
-		lu = append(lu, u)
+
+		u, _ := (&User{Id: elem.Id}).GetUser()
+
+		results = append(results, u)
 	}
 
-	return lu, nil
+	if err := cur.Err(); err != nil {
+		log.Println(err.Error(), "err.Error() models/admin.go:89")
+		return []User{}, err
+	}
+
+	return results, nil
 }
 
 func (this *Admin) UpdateStatus(req requests.RequestUpdateStatus) error {
-	data, err := db.Prepare("Update Account set Status = ? where Id = ?")
+	filter := bson.D{{"id", req.IdUser}}
+	_, err := getAccountDocument().UpdateOne(context.TODO(), filter, bson.M{"$set": bson.M{"status": req.Status}})
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/admin.go:113")
 		return err
 	}
-	_, err = data.Exec(req.Status, req.IdUser)
-	if err != nil {
-		return err
-	}
+
 	return nil
 }

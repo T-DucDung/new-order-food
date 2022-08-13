@@ -1,90 +1,130 @@
 package models
 
 import (
-	"new-order-food/queries"
+	"context"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"log"
 	"new-order-food/responses"
-	"strconv"
+	"sync"
 )
 
+var (
+	onceGetCart sync.Once
+	aCart       *mongo.Collection
+)
+
+//go:generate easytags $GOFILE json,xml,bson
+
 type Cart struct {
-	Userid    int `json:"userid" xml:"userid"`
-	ProductId int `json:"product_id" xml:"product_id"`
-	Quantity  int `json:"quantity" xml:"quantity"`
+	Userid    int `json:"userid" xml:"userid" bson:"userid"`
+	ProductId int `json:"product_id" xml:"product_id" bson:"product_id"`
+	Quantity  int `json:"quantity" xml:"quantity" bson:"quantity"`
+}
+
+func getCartDocument() *mongo.Collection {
+	onceGetCart.Do(func() {
+		aCart = db.Database("neworderfood").Collection("Cart")
+	})
+	return aCart
 }
 
 func (this *Cart) Set() error {
-	data, err := db.Prepare("INSERT INTO Cart(UserId, ProductId, Quantity) VALUES(?, ?, ?);")
+	_, err := getCartDocument().InsertOne(context.TODO(), this)
 	if err != nil {
-		return err
+		log.Println(err.Error(), "err.Error() models/cart.go:34")
 	}
-	_, err = data.Exec(this.Userid, this.ProductId, this.Quantity)
-	if err != nil {
-		return err
-	}
+
 	return nil
 }
 
 func (this *Cart) Get() ([]responses.CartRes, error) {
 	lc := []responses.CartRes{}
 
-	results, err := db.Query(queries.GetCart(strconv.Itoa(this.Userid)))
+	b := bson.D{{"userid", this.Userid}}
+
+	cur, err := getCartDocument().Find(context.TODO(), b)
 	if err != nil {
-		return nil, err
+		log.Println(err.Error(), "err.Error() models/cart.go:50")
+		return []responses.CartRes{}, err
 	}
 
-	for results.Next() {
-		c := responses.CartRes{}
-		err = results.Scan(&c.Id, &c.Name, &c.Quantity)
+	for cur.Next(context.TODO()) {
+		var elem Cart
+		err := cur.Decode(&elem)
 		if err != nil {
-			return nil, err
+			log.Println(err.Error(), "err.Error() models/cart.go:58")
+			return []responses.CartRes{}, err
 		}
-		lc = append(lc, c)
+
+		u, _ := (&Product{}).GetProduct(elem.ProductId)
+
+		lc = append(lc, responses.CartRes{
+			Id:        u.Id,
+			Name:      u.Name,
+			Quantity:  elem.Quantity,
+			Price:     u.Price,
+			IsSale:    u.IsSale,
+			SalePrice: u.SalePrice,
+		})
+	}
+
+	if err := cur.Err(); err != nil {
+		log.Println(err.Error(), "err.Error() models/cart.go:68")
+		return []responses.CartRes{}, err
 	}
 
 	return lc, nil
 }
 
 func (this *Cart) Del() error {
-	data, err := db.Prepare("Delete from Cart where UserId = ?")
+	filter := bson.D{{"userid", this.Userid}}
+
+	d, err := getCartDocument().DeleteMany(context.TODO(), filter)
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/cart.go:85")
 		return err
 	}
-	_, err = data.Exec(this.Userid)
-	if err != nil {
-		return err
-	}
+	log.Println(d.DeletedCount, "d.DeletedCount models/cart.go:88")
+
 	return nil
 }
 
 func (this *Cart) RemoveItem() error {
-	data, err := db.Prepare("Delete from Cart where UserId = ? and ProductId = ?")
+	filter := bson.D{{"userid", this.Userid}, {"product_id", this.ProductId}}
+
+	_, err = getCartDocument().DeleteOne(context.TODO(), filter)
 	if err != nil {
-		return err
+		log.Println(err.Error(), "err.Error() models/cart.go:97")
 	}
-	_, err = data.Exec(this.Userid, this.ProductId)
-	if err != nil {
-		return err
-	}
+
 	return nil
 }
 
 func (this *Cart) UpdateItem() error {
-	data, err := db.Prepare("Update Cart set Quantity = ? where UserId = ? and ProductId = ?")
-	if err != nil {
-		return err
+	filter := bson.D{{"userid", this.Userid}, {"product_id", this.ProductId}}
+
+	update := bson.D{
+		{"$set", bson.D{
+			{"quantity", this.Quantity},
+		}},
 	}
-	_, err = data.Exec(this.Quantity, this.Userid, this.ProductId)
+
+	_, err = getCartDocument().UpdateOne(context.TODO(), filter, update)
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/cart.go:115")
 		return err
 	}
 	return nil
 }
 
 func (this *Cart) CheckExist() (bool, error) {
-	var check bool
-	err = db.QueryRow(queries.CheckCartExist(strconv.Itoa(this.Userid), strconv.Itoa(this.ProductId))).Scan(&check)
+	c := Cart{}
+	filter := bson.D{{"userid", this.Userid}, {"product_id", this.ProductId}}
+	err = getCartDocument().FindOne(context.TODO(), filter).Decode(&c)
 	if err != nil {
-		return false, err
+		log.Println(err.Error(), "err.Error() models/cart.go:126")
+		return false, nil
 	}
-	return check, nil
+	return true, nil
 }

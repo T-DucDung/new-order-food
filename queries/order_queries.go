@@ -9,7 +9,7 @@ func GetListOrderDetail(id string) string {
 }
 
 func GetListOrderForAdmin() string {
-	return "select o.Id, o.Name, o.Phone, o.Address, o.Total, o.CurrentStatus, o.LastUpDate from `Order` o order by o.CurrentStatus"
+	return "select o.Id, o.Name, o.Phone, o.Address, o.Total, o.CurrentStatus, o.LastUpDate from `Order` o order by o.CurrentStatus, o.LastUpDate desc"
 }
 
 func GetTotal(id string) string {

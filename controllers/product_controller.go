@@ -57,14 +57,14 @@ func (this *ProductController) CreateProduct() {
 //@Title Get Product
 //@Description Get Product
 //@Summary Lấy một sản phẩm
-// @Param pid path string true "product id"
+// @Param pid path int true "product id"
 //@Success 200 {object} responses.ResponseSingle
 //@Failure 404 {object} responses.ResponseSingle
 //@router /:pid [get]
 func (this *ProductController) GetProduct() {
 	defer this.ServeJSON()
-	pid := this.GetString(":pid")
-	log.Println("product id : ", pid)
+	pid, _ := this.GetInt(":pid")
+	//log.Println("product id : ", pid)
 	p, err := services.GetProduct(pid)
 	if err != nil {
 		log.Println("controllers/product_controller.go:70 ", err)
@@ -78,6 +78,7 @@ func (this *ProductController) GetProduct() {
 		Data:  p,
 		Error: responses.NewErr(responses.Success),
 	}
+	return
 }
 
 //@Title Get List Product
@@ -85,16 +86,16 @@ func (this *ProductController) GetProduct() {
 //@Summary Lấy một danh sách sản phẩm
 // @Param page query int false "page"
 // @Param size query int false "size"
-// @Param cateid query string false "cate id"
+// @Param cateid query int false "cate id"
 //@Success 200 {object} responses.ResponseArray
 //@Failure 404 {object} responses.ResponseArray
 //@router /list [get]
 func (this *ProductController) GetListProduct() {
 	defer this.ServeJSON()
-	cateid := this.GetString("cateid")
-	page, err := this.GetInt("page", 1)
-	size, err := this.GetInt("size", 10)
-	log.Println(page, size, cateid)
+	cateid, _ := this.GetInt("cateid", -1)
+	page, _ := this.GetInt("page", 1)
+	size, _ := this.GetInt("size", 10)
+	//log.Println(page, size, cateid)
 	lp, count, err := services.GetListProduct((page-1)*size, size, cateid)
 	if err != nil {
 		log.Println("controllers/product_controller.go:100 ", err)
@@ -139,7 +140,7 @@ func (this *ProductController) UpDateProduct() {
 		}
 		return
 	}
-	err = services.UpDateProduct(product)
+	err = services.UpdateProduct(product)
 	if err != nil {
 		log.Println("controllers/product_controller.go:171 ", err)
 		this.Data["json"] = responses.ResponseBool{
@@ -161,20 +162,20 @@ func (this *ProductController) UpDateProduct() {
 //@router /search [get]
 func (this *ProductController) GetListSearch() {
 	defer this.ServeJSON()
-	word := this.GetString("word")
-	lp, err := services.Search(word)
-	if err != nil {
-		log.Println("controllers/product_controller.go:167 ", err)
-		this.Data["json"] = responses.ResponseArray{
-			Data:       nil,
-			TotalCount: 0,
-			Error:      responses.NewErr(responses.UnSuccess),
-		}
-		return
-	}
-	this.Data["json"] = responses.ResponseArray{
-		Data:       lp,
-		TotalCount: len(lp),
-		Error:      responses.NewErr(responses.Success),
-	}
+	//word := this.GetString("word")
+	//lp, err := services.Search(word)
+	//if err != nil {
+	//	log.Println("controllers/product_controller.go:167 ", err)
+	//	this.Data["json"] = responses.ResponseArray{
+	//		Data:       nil,
+	//		TotalCount: 0,
+	//		Error:      responses.NewErr(responses.UnSuccess),
+	//	}
+	//	return
+	//}
+	//this.Data["json"] = responses.ResponseArray{
+	//	Data:       lp,
+	//	TotalCount: len(lp),
+	//	Error:      responses.NewErr(responses.Success),
+	//}
 }

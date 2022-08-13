@@ -4,8 +4,10 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"log"
+	"new-order-food/models"
 	"new-order-food/responses"
 	"new-order-food/services"
+	"strconv"
 	"time"
 )
 
@@ -217,4 +219,43 @@ func (this *StatisticController) ExImport() {
 
 	this.Ctx.Output.SetStatus(200)
 	this.Ctx.Output.Download(f, "ExImport-"+fmt.Sprintf("%02d-%02d-%d", ts.Day(), ts.Month(), ts.Year())+"-"+fmt.Sprintf("%02d-%02d-%d", te.Day(), te.Month(), te.Year())+".xlsx")
+}
+
+//@Title Get Recommend
+//@Description Get Recommend
+//@Summary Lấy tổng sản phẩm
+// @Params token header string true "Token"
+//@Success 200 {object} responses.ResponseSingle
+//@Failure 404 {object} responses.ResponseSingle
+//@router /recommend [get]
+func (this *StatisticController) GetRecommend() {
+	defer this.ServeJSON()
+	uid, _ := strconv.Atoi(this.Ctx.Request.Header.Get("id"))
+
+	total, err := services.GetRecommend(uid)
+	if err != nil {
+		log.Println("controllers/statistic_controller.go:138 ", err)
+		this.Data["json"] = responses.ResponseSingle{
+			Data:  nil,
+			Error: responses.NewErr(responses.UnSuccess),
+		}
+		return
+	}
+	this.Data["json"] = responses.ResponseSingle{
+		Data:  total,
+		Error: responses.NewErr(responses.Success),
+	}
+}
+
+//@Title Get visualize
+//@Description Get visualize
+//@Summary trực quan hóa dữ liệu
+//@router /visualize [get]
+func (this *StatisticController) Visualize() {
+	monthItem,_ :=(&models.Statistics{}).GetTopPrice()
+	monthPrice,_ :=(&models.Statistics{}).GetTopByMonth()
+
+	this.Data["month_price"] = monthPrice
+	this.Data["month_item"] = monthItem
+	this.TplName = "index.tpl"
 }

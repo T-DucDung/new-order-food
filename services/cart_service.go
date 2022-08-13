@@ -4,7 +4,6 @@ import (
 	"errors"
 	"new-order-food/models"
 	"new-order-food/responses"
-	"strconv"
 )
 
 func Set(uid, pid, quantity int) error {
@@ -12,7 +11,7 @@ func Set(uid, pid, quantity int) error {
 		return errors.New("quantity error")
 	}
 	p := models.Product{}
-	total, err := p.CheckRemaining(strconv.Itoa(pid))
+	total, err := p.CheckRemaining(pid)
 	if err != nil {
 		return err
 	}
@@ -44,7 +43,7 @@ func Get(uid int) ([]responses.CartRes, error) {
 
 	p := models.Product{}
 	for index, item := range lc {
-		isSale, price, salePrice, err := p.GetPrice(strconv.Itoa(item.Id))
+		isSale, price, salePrice, err := p.GetPrice(item.Id)
 		if err != nil {
 			return nil, err
 		}
@@ -75,7 +74,7 @@ func UpdateItem(uid, pid, quantity int) error {
 		return errors.New("quantity error")
 	}
 	p := models.Product{}
-	total, err := p.CheckRemaining(strconv.Itoa(pid))
+	total, err := p.CheckRemaining(pid)
 	if err != nil {
 		return err
 	}

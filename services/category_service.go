@@ -11,7 +11,7 @@ func GetListCategory() ([]responses.CategoryRes, error) {
 }
 
 func UpdateCategory(category models.Category) error {
-	return category.UpDateCategory()
+	return category.UpdateCategory()
 }
 
 func CreateCategory(nameCategory string) error {

@@ -1,8 +1,8 @@
 package services
 
 import (
+	"go.mongodb.org/mongo-driver/bson"
 	"new-order-food/models"
-	"new-order-food/queries"
 	"new-order-food/requests"
 	"new-order-food/responses"
 )
@@ -29,15 +29,14 @@ func CreateProduct(req requests.RequestCreateProduct) error {
 	return p.CreateProduct()
 }
 
-func GetProduct(id string) (responses.ProductRes, error) {
-	p := models.Product{}
-	return p.GetProduct(id)
+func GetProduct(id int) (responses.ProductRes, error) {
+	return (&models.Product{}).GetProduct(id)
 }
 
-func GetListProduct(pos, count int, cateid string) ([]responses.ProductRes, int, error) {
+func GetListProduct(pos, count int, cateid int) ([]responses.ProductRes, int, error) {
 	p := models.Product{}
-	if cateid != "" {
-		lp, err := p.GetListProduct(queries.GetListProductByCate(cateid))
+	if cateid != -1 {
+		lp, err := p.GetListProduct(bson.D{{"category_id", cateid}})
 		if err != nil {
 			return nil, 0, err
 		}
@@ -46,7 +45,7 @@ func GetListProduct(pos, count int, cateid string) ([]responses.ProductRes, int,
 		}
 		return lp[pos : pos+count], len(lp), nil
 	}
-	lp, err := p.GetListProduct(queries.GetListProduct())
+	lp, err := p.GetListProduct(bson.D{})
 	if err != nil {
 		return nil, 0, err
 	}
@@ -59,11 +58,7 @@ func GetListProduct(pos, count int, cateid string) ([]responses.ProductRes, int,
 	return lp[pos : pos+count], len(lp), nil
 }
 
-func UpDateProduct(p models.Product) error {
+func UpdateProduct(p models.Product) error {
 	return p.UpDateProduct()
 }
 
-func Search(word string) ([]responses.ProductRes, error) {
-	p := models.Product{}
-	return p.Search(word)
-}

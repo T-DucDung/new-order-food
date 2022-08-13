@@ -20,17 +20,6 @@ func PayOrder(req requests.RequestOrder, uid int) error {
 		return err
 	}
 
-	rank, err := GetRank(uid)
-	if err != nil {
-		return err
-	}
-	rate, err := GetRateDis(rank)
-	if err != nil {
-		return err
-	}
-
-	total = total - (total * (rate / 100))
-
 	err = order.PayOrder(order, lod, total)
 	if err != nil {
 		return err
@@ -41,43 +30,26 @@ func PayOrder(req requests.RequestOrder, uid int) error {
 		return err
 	}
 
-	discount := models.Discount{}
-	newRank, err := discount.GetRank(total)
-	if err != nil {
-		return err
-	}
-	
-	if newRank != rank {
-		u :=  models.User{
-			Id:   uid,
-			Rank: newRank,
-		}
-		err = u.UpRank()
-		if err != nil {
-			return err
-		}
-	}
-
 	return Del(uid)
 }
 
-func CaculatorOrder(req []requests.RequestOrderDetail) ([]models.OrderDetail, float32, error) {
-	lod := []models.OrderDetail{}
-	orderDetail := models.OrderDetail{}
+func CaculatorOrder(req []requests.RequestOrderDetail) ([]models.InsOrderDetail, float64, error) {
+	lod := []models.InsOrderDetail{}
+	orderDetail := models.InsOrderDetail{}
 	p := models.Product{}
-	var total float32
+	var total float64
 	total = 0
 
 	for _, v := range req {
 		orderDetail.ProductId = v.ProductId
 
-		remaining, err := p.CheckRemaining(strconv.Itoa(v.ProductId))
+		remaining, err := p.CheckRemaining(v.ProductId)
 		if v.Quantity > remaining {
 			return nil, -1, errors.New("not enough product, id: " + strconv.Itoa(v.ProductId))
 		}
 		orderDetail.Quantity = v.Quantity
 
-		isSale, price, salePrice, err := p.GetPrice(strconv.Itoa(v.ProductId))
+		isSale, price, salePrice, err := p.GetPrice(v.ProductId)
 		if err != nil || price == -1 || salePrice == -1 {
 			return nil, 0, err
 		}
@@ -88,7 +60,7 @@ func CaculatorOrder(req []requests.RequestOrderDetail) ([]models.OrderDetail, fl
 			orderDetail.Price = price
 		}
 
-		total = total + (price * float32(v.Quantity))
+		total = total + (price * float64(v.Quantity))
 		lod = append(lod, orderDetail)
 	}
 	return lod, total, nil
@@ -109,7 +81,7 @@ func UpDateOrder(id string) error {
 	return o.UpdateOrder(id)
 }
 
-func GetTotal(id string) (float32, error) {
+func GetTotal(id string) (float64, error) {
 	o := models.Order{}
 	return o.GetTotal(id)
 }

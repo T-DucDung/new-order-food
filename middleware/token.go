@@ -18,6 +18,7 @@ var mapNotAuthUrls = map[string]string{
 	"/v1/account/":                 "GET",
 	"/v1/comment/":                 "GET",
 	"/v1/statistic/total-top-sale": "GET",
+	"/v1/statistic/visualize": 		"GET",
 }
 
 var mapPrefix = map[string]string{

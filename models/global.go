@@ -2,16 +2,16 @@ package models
 
 import (
 	"context"
-	"database/sql"
+	"go.mongodb.org/mongo-driver/mongo"
+	"go.mongodb.org/mongo-driver/mongo/options"
 	"log"
 	"sync"
 
 	"github.com/go-redis/redis/v8"
-	_ "github.com/go-sql-driver/mysql"
 )
 
 var (
-	db    *sql.DB
+	db    *mongo.Client
 	onceM sync.Once
 	onceR sync.Once
 	err   error
@@ -22,11 +22,11 @@ var ctx = context.Background()
 
 func InitConnectDataBase() {
 	onceM.Do(func() {
-		db, err = sql.Open("mysql", "root:Dung13524685@tcp(127.0.0.1:3306)/neworderfood")
+		db, err = mongo.Connect(ctx, options.Client().ApplyURI("mongodb://localhost:27017"))
 		if err != nil {
 			log.Println("error connect database : ", err)
 		} else {
-			log.Println("====InitConnectMySql====")
+			log.Println("====InitConnectMongoDb====")
 			log.Println(db)
 			log.Println("========================")
 		}

@@ -1,9 +1,13 @@
 package models
 
 import (
-	"new-order-food/queries"
+	"context"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
+	"log"
 	"new-order-food/responses"
 	"strconv"
+	"sync"
 	"time"
 )
 
@@ -12,48 +16,96 @@ var mapStatus = map[int]string{
 	2: "Done",
 }
 
+//go:generate easytags $GOFILE json,xml,bson
+
+var (
+	onceGetOrder sync.Once
+	aOrder       *mongo.Collection
+)
+
+func getOrderDocument() *mongo.Collection {
+	onceGetOrder.Do(func() {
+		aOrder = db.Database("neworderfood").Collection("Order")
+	})
+	return aOrder
+}
+
+func getCurrentOrderDocument() (int, error) {
+	i, err := getOrderDocument().CountDocuments(context.TODO(), bson.M{})
+	if err != nil {
+		log.Println(err.Error(), "err.Error() models/order.go:36")
+		return 0, err
+	}
+	return int(i + 1), nil
+}
+
+var (
+	onceGetOrderD sync.Once
+	aOrderDetail       *mongo.Collection
+)
+
+func getOrderDetailDocument() *mongo.Collection {
+	onceGetOrderD.Do(func() {
+		aOrderDetail = db.Database("neworderfood").Collection("OrderDetail")
+	})
+	return aOrderDetail
+}
+
 type Order struct {
-	Id            int           `json:"id" xml:"id"`
-	UserId        int           `json:"user_id" xml:"user_id"`
-	LastUpdate    int64         `json:"last_update" xml:"last_update"`
-	Number        string        `json:"number" xml:"number"`
-	Address       string        `json:"address" xml:"address"`
-	Name          string        `json:"name" xml:"name"`
-	Total         float32       `json:"total" xml:"total"`
-	CurrentStatus int           `json:"current_status" xml:"current_status"`
-	Detail        []OrderDetail `json:"detail" xml:"detail"`
+	Id            int     `json:"id" xml:"id" bson:"id"`
+	UserId        int     `json:"user_id" xml:"user_id" bson:"user_id"`
+	LastUpdate    int64   `json:"last_update" xml:"last_update" bson:"last_update"`
+	Number        string  `json:"number" xml:"number" bson:"number"`
+	Address       string  `json:"address" xml:"address" bson:"address"`
+	Name          string  `json:"name" xml:"name" bson:"name"`
+	Total         float64 `json:"total" xml:"total" bson:"total"`
+	CurrentStatus int     `json:"current_status" xml:"current_status" bson:"current_status"`
 }
 
-type OrderDetail struct {
-	ProductId int     `json:"product_id" xml:"product_id"`
-	IsSale    bool    `json:"is_sale" xml:"is_sale"`
-	Price     float32 `json:"price" xml:"price"`
-	Quantity  int     `json:"quantity" xml:"quantity"`
+type InsOrderDetail struct {
+	OrderId   int     `json:"order_id" xml:"order_id" bson:"order_id"`
+	ProductId int     `json:"product_id" xml:"product_id" bson:"product_id"`
+	IsSale    bool    `json:"is_sale" xml:"is_sale" bson:"is_sale"`
+	Price     float64 `json:"price" xml:"price" bson:"price"`
+	Quantity  int     `json:"quantity" xml:"quantity" bson:"quantity"`
 }
 
-func (this *Order) PayOrder(order Order, lod []OrderDetail, total float32) error {
-	data, err := db.Prepare("insert into `Order` (UserId,Name,Phone,Address,Total,CurrentStatus,LastUpDate) VALUES(?, ?, ?, ?, ?, ?, ?);")
+func (this *Order) PayOrder(order Order, lod []InsOrderDetail, total float64) error {
+	id, err := getCurrentOrderDocument()
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/order.go:62")
 		return err
 	}
-	val, err := data.Exec(order.UserId, order.Name, order.Number, order.Address, total, 1, time.Now().Unix())
+	_, err = getOrderDocument().InsertOne(context.TODO(), Order{
+		Id:            id,
+		UserId:        order.UserId,
+		LastUpdate:    time.Now().Unix(),
+		Number:        order.Number,
+		Address:       order.Address,
+		Name:          order.Name,
+		Total:         total,
+		CurrentStatus: 1,
+	})
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/order.go:76")
 		return err
 	}
-
-	id, err := val.LastInsertId()
-	p := Product{}
 
 	for _, item := range lod {
-		data, err = db.Prepare("insert into OrderDetail (OrderId,ProductId,IsSale,Price,Quantity) VALUES(?, ?, ?, ?, ?);")
+		log.Println(item, "item models/order.go:95")
+		_, err = getOrderDetailDocument().InsertOne(context.TODO(), InsOrderDetail{
+			OrderId:   id,
+			ProductId: item.ProductId,
+			IsSale:    item.IsSale,
+			Price:     item.Price,
+			Quantity:  item.Quantity,
+		})
 		if err != nil {
+			log.Println(err.Error(), "err.Error() models/order.go:111")
 			return err
 		}
-		_, err = data.Exec(id, item.ProductId, item.IsSale, item.Price, item.Quantity)
-		if err != nil {
-			return err
-		}
-		err = p.UpdateRemaining(strconv.Itoa(item.ProductId), -item.Quantity, item.Quantity)
+
+		err = (&Product{}).UpdateRemaining(item.ProductId, -item.Quantity, item.Quantity)
 		if err != nil {
 			return err
 		}
@@ -63,102 +115,150 @@ func (this *Order) PayOrder(order Order, lod []OrderDetail, total float32) error
 }
 
 func (this *Order) GetListOrder(uid string) ([]responses.OrderRes, error) {
-	lo := []responses.OrderRes{}
+	results := make([]responses.OrderRes, 0)
 
-	results, err := db.Query(queries.GetListOrder(uid))
+	b := bson.D{{"user_id", uid}}
+
+	cur, err := getOrderDocument().Find(context.TODO(), b)
 	if err != nil {
-		return nil, err
+		log.Println(err.Error(), "err.Error() models/order.go:129")
+		return []responses.OrderRes{}, err
 	}
 
-	for results.Next() {
-		o := responses.OrderRes{}
-		status := 0
-		err = results.Scan(&o.Id, &o.Name, &o.Number, &o.Address, &o.Total, &status, &o.LastUpdate)
+	for cur.Next(context.TODO()) {
+		var elem Order
+		err := cur.Decode(&elem)
 		if err != nil {
-			return nil, err
+			log.Println(err.Error(), "err.Error() models/order.go:137")
+			return []responses.OrderRes{}, err
 		}
-		o.CurrentStatus = mapStatus[status]
-		lo = append(lo, o)
-	}
 
-	for index, item := range lo {
-		lod, err := getOrderDetail(strconv.Itoa(item.Id))
+		u, err := getOrderDetail(elem.Id)
 		if err != nil {
-			return nil, err
+			log.Println(err.Error(), "err.Error() models/order.go:143")
+			continue
 		}
-		lo[index].Detail = lod
+
+		results = append(results, responses.OrderRes{
+			Id:            elem.Id,
+			Number:        elem.Number,
+			Address:       elem.Address,
+			Name:          elem.Name,
+			LastUpdate:    elem.LastUpdate,
+			Total:         elem.Total,
+			CurrentStatus: strconv.Itoa(elem.CurrentStatus),
+			Detail:        u,
+		})
 	}
 
-	return lo, nil
+	if err := cur.Err(); err != nil {
+		log.Println(err.Error(), "err.Error() models/order.go:160")
+		return []responses.OrderRes{}, err
+	}
+
+	return results, nil
 }
 
-func getOrderDetail(id string) ([]responses.OrderDetailRes, error) {
-	lod := []responses.OrderDetailRes{}
+func getOrderDetail(id int) ([]responses.OrderDetailRes, error) {
+	results := make([]responses.OrderDetailRes, 0)
 
-	results, err := db.Query(queries.GetListOrderDetail(id))
+	b := bson.D{{"order_id", id}}
+
+	cur, err := getOrderDetailDocument().Find(context.TODO(), b)
 	if err != nil {
-		return nil, err
+		log.Println(err.Error(), "err.Error() models/order.go:174")
+		return []responses.OrderDetailRes{}, err
 	}
 
-	for results.Next() {
-		o := responses.OrderDetailRes{}
-		err = results.Scan(&o.Name, &o.IsSale, &o.Price, &o.Quantity)
+	for cur.Next(context.TODO()) {
+		var elem InsOrderDetail
+		err := cur.Decode(&elem)
 		if err != nil {
-			return nil, err
+			log.Println(err.Error(), "err.Error() models/order.go:182")
+			return []responses.OrderDetailRes{}, err
 		}
-		lod = append(lod, o)
+
+		results = append(results, responses.OrderDetailRes{
+			Name:     (&Product{Id: elem.ProductId}).GetName(),
+			IsSale:   elem.IsSale,
+			Price:    elem.Price,
+			Quantity: elem.Quantity,
+		})
 	}
 
-	return lod, nil
+	if err := cur.Err(); err != nil {
+		log.Println(err.Error(), "err.Error() models/order.go:195")
+		return []responses.OrderDetailRes{}, err
+	}
+
+	return results, nil
 }
 
 func (this *Order) GetListOrderForAdmin() ([]responses.OrderRes, error) {
-	lo := []responses.OrderRes{}
+	results := make([]responses.OrderRes, 0)
 
-	results, err := db.Query(queries.GetListOrderForAdmin())
+	cur, err := getOrderDocument().Find(context.TODO(), bson.M{})
 	if err != nil {
-		return nil, err
+		log.Println(err.Error(), "err.Error() models/order.go:207")
+		return []responses.OrderRes{}, err
 	}
 
-	for results.Next() {
-		o := responses.OrderRes{}
-		status := 0
-		err = results.Scan(&o.Id, &o.Name, &o.Number, &o.Address, &o.Total, &status, &o.LastUpdate)
+	for cur.Next(context.TODO()) {
+		var elem Order
+		err := cur.Decode(&elem)
 		if err != nil {
-			return nil, err
+			log.Println(err.Error(), "err.Error() models/order.go:215")
+			return []responses.OrderRes{}, err
 		}
-		o.CurrentStatus = mapStatus[status]
-		lo = append(lo, o)
-	}
 
-	for index, item := range lo {
-		lod, err := getOrderDetail(strconv.Itoa(item.Id))
+		u, err := getOrderDetail(elem.Id)
 		if err != nil {
-			return nil, err
+			log.Println(err.Error(), "err.Error() models/order.go:221")
+			continue
 		}
-		lo[index].Detail = lod
+
+		results = append(results, responses.OrderRes{
+			Id:            elem.Id,
+			Number:        elem.Number,
+			Address:       elem.Address,
+			Name:          elem.Name,
+			LastUpdate:    elem.LastUpdate,
+			Total:         elem.Total,
+			CurrentStatus: strconv.Itoa(elem.CurrentStatus),
+			Detail:        u,
+		})
 	}
 
-	return lo, nil
+	if err := cur.Err(); err != nil {
+		log.Println(err.Error(), "err.Error() models/order.go:238")
+		return []responses.OrderRes{}, err
+	}
+
+	return results, nil
 }
 
 func (this *Order) UpdateOrder(id string) error {
-	data, err := db.Prepare("update `Order` set CurrentStatus = 2 where id = ?")
-	if err != nil {
-		return err
+	filter := bson.D{{"id", id}}
+
+	update := bson.D{
+		{"$set", bson.D{
+			{"current_status", 2},
+		}},
 	}
-	_, err = data.Exec(id)
+
+	_, err := getOrderDocument().UpdateOne(context.TODO(), filter, update)
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/order.go:256")
 		return err
 	}
 	return nil
 }
 
-func (this *Order) GetTotal(id string) (float32, error) {
-	var total float32
-	err = db.QueryRow(queries.GetTotal(id)).Scan(&total)
+func (this *Order) GetTotal(id string) (float64, error) {
+	total, err := getOrderDocument().CountDocuments(context.TODO(), bson.M{"user_id": id})
 	if err != nil {
-		return -1, err
+		log.Println(err.Error(), "err.Error() models/order.go:264")
+		return 0, err
 	}
-	return total, nil
+	return float64(total), nil
 }

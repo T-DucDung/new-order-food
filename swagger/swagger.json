@@ -422,245 +422,6 @@
                 }
             }
         },
-        "/comment/": {
-            "get": {
-                "tags": [
-                    "comment"
-                ],
-                "summary": "Lấy danh sách bình luận",
-                "description": "Get List Comment",
-                "operationId": "CommentController.Get List Comment",
-                "parameters": [
-                    {
-                        "in": "query",
-                        "name": "pid",
-                        "description": "product id",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseArray"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseArray"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "comment"
-                ],
-                "summary": "Tạo mới bình luận",
-                "description": "Create Comment",
-                "operationId": "CommentController.Create Comment",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "comment",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requests.RequestComment"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            }
-        },
-        "/discount/": {
-            "get": {
-                "tags": [
-                    "discount"
-                ],
-                "summary": "Lấy danh sách giảm giá",
-                "description": "Get List Discount",
-                "operationId": "DiscountController.Get List Discount",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseArray"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseArray"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "discount"
-                ],
-                "summary": "sửa một giảm giá",
-                "description": "Update Discount",
-                "operationId": "DiscountController.Update Discount",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "category",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requests.RequestDis"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "discount"
-                ],
-                "summary": "Tạo một loại giảm giá",
-                "description": "Create Discount",
-                "operationId": "DiscountController.Create Discount",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "data",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requests.RequestDis"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            }
-        },
-        "/import/": {
-            "get": {
-                "tags": [
-                    "import"
-                ],
-                "summary": "Lấy danh sách nhập",
-                "description": "Get List Import",
-                "operationId": "ImportController.Get List Import",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseArray"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseArray"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "import"
-                ],
-                "summary": "Tạo đơn nhập",
-                "description": "Create Import",
-                "operationId": "ImportController.Create Import",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "data",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requests.RequestImport"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            }
-        },
         "/order/": {
             "post": {
                 "tags": [
@@ -900,7 +661,8 @@
                         "in": "query",
                         "name": "cateid",
                         "description": "cate id",
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64"
                     }
                 ],
                 "responses": {
@@ -960,7 +722,8 @@
                         "name": "pid",
                         "description": "product id",
                         "required": true,
-                        "type": "string"
+                        "type": "integer",
+                        "format": "int64"
                     }
                 ],
                 "responses": {
@@ -1000,110 +763,6 @@
                         "schema": {
                             "$ref": "#/definitions/requests.RequestRate"
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            }
-        },
-        "/sale/": {
-            "get": {
-                "tags": [
-                    "sale"
-                ],
-                "summary": "Lấy danh sách sale",
-                "description": "Get List Sale",
-                "operationId": "SaleController.Get List Sale",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseArray"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseArray"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "sale"
-                ],
-                "summary": "Tạo sale",
-                "description": "Create sale",
-                "operationId": "SaleController.Create Sale",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "data",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requests.RequestSale"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            }
-        },
-        "/sale/{id}": {
-            "put": {
-                "tags": [
-                    "sale"
-                ],
-                "summary": "sửa sale",
-                "description": "Update Sale",
-                "operationId": "SaleController.Update Sale",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "path",
-                        "name": "id",
-                        "description": "id",
-                        "required": true,
-                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1192,6 +851,36 @@
                         "description": "End Time",
                         "type": "integer",
                         "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/responses.ResponseSingle"
+                        }
+                    },
+                    "404": {
+                        "description": "{object} responses.ResponseSingle"
+                    }
+                }
+            }
+        },
+        "/statistic/recommend": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "Lấy tổng sản phẩm",
+                "description": "Get Recommend",
+                "operationId": "StatisticController.Get Recommend",
+                "parameters": [
+                    {
+                        "in": "header",
+                        "name": "token",
+                        "description": "Token",
+                        "required": true,
+                        "type": "string"
                     }
                 ],
                 "responses": {
@@ -1327,6 +1016,16 @@
                 }
             }
         },
+        "/statistic/visualize": {
+            "get": {
+                "tags": [
+                    "statistic"
+                ],
+                "summary": "trực quan hóa dữ liệu",
+                "description": "Get visualize",
+                "operationId": "StatisticController.Get visualize"
+            }
+        },
         "/user/": {
             "get": {
                 "tags": [
@@ -1393,118 +1092,14 @@
                     }
                 }
             }
-        },
-        "/vendor/": {
-            "get": {
-                "tags": [
-                    "vendor"
-                ],
-                "summary": "Lấy danh sách nhà cung cấp",
-                "description": "Get List Vendor",
-                "operationId": "VendorController.Get List Vendor",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseArray"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseArray"
-                    }
-                }
-            },
-            "put": {
-                "tags": [
-                    "vendor"
-                ],
-                "summary": "sửa một nhà cung cấp",
-                "description": "Update Vendor",
-                "operationId": "VendorController.Update Vendor",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "category",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.Vendor"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            },
-            "post": {
-                "tags": [
-                    "vendor"
-                ],
-                "summary": "Tạo một nhà cung cấp",
-                "description": "Create Vendor",
-                "operationId": "VendorController.Create Vendor",
-                "parameters": [
-                    {
-                        "in": "header",
-                        "name": "token",
-                        "description": "Token",
-                        "required": true,
-                        "type": "string"
-                    },
-                    {
-                        "in": "body",
-                        "name": "data",
-                        "description": "data",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/requests.RequestVendor"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "",
-                        "schema": {
-                            "$ref": "#/definitions/responses.ResponseBool"
-                        }
-                    },
-                    "404": {
-                        "description": "{object} responses.ResponseBool"
-                    }
-                }
-            }
         }
     },
     "definitions": {
-        "871.0xc000679d10.false": {
+        "1124.0xc0005e4030.false": {
             "title": "false",
             "type": "object"
         },
-        "997.0xc000679da0.false": {
+        "998.0xc0005b3f80.false": {
             "title": "false",
             "type": "object"
         },
@@ -1547,7 +1142,7 @@
                 },
                 "price": {
                     "type": "number",
-                    "format": "float"
+                    "format": "double"
                 },
                 "rate1": {
                     "type": "integer",
@@ -1571,7 +1166,7 @@
                 },
                 "rate_avg": {
                     "type": "number",
-                    "format": "float"
+                    "format": "double"
                 },
                 "remaining": {
                     "type": "integer",
@@ -1579,35 +1174,13 @@
                 },
                 "sale_price": {
                     "type": "number",
-                    "format": "float"
+                    "format": "double"
                 },
                 "sold": {
                     "type": "integer",
                     "format": "int64"
                 },
                 "unit": {
-                    "type": "string"
-                }
-            }
-        },
-        "models.Vendor": {
-            "title": "Vendor",
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "email": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone": {
                     "type": "string"
                 }
             }
@@ -1621,19 +1194,6 @@
                     "format": "int64"
                 },
                 "quantity": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "requests.RequestComment": {
-            "title": "RequestComment",
-            "type": "object",
-            "properties": {
-                "comment": {
-                    "type": "string"
-                },
-                "product_id": {
                     "type": "integer",
                     "format": "int64"
                 }
@@ -1691,76 +1251,6 @@
                 }
             }
         },
-        "requests.RequestDetailSale": {
-            "title": "RequestDetailSale",
-            "type": "object",
-            "properties": {
-                "product_id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "sale_price": {
-                    "type": "number",
-                    "format": "float"
-                }
-            }
-        },
-        "requests.RequestDis": {
-            "title": "RequestDis",
-            "type": "object",
-            "properties": {
-                "accumulate": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "rank": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "rate": {
-                    "type": "number",
-                    "format": "float"
-                }
-            }
-        },
-        "requests.RequestImport": {
-            "title": "RequestImport",
-            "type": "object",
-            "properties": {
-                "detail": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/requests.RequestImportDetail"
-                    }
-                },
-                "total": {
-                    "type": "number",
-                    "format": "float"
-                },
-                "vendor_id": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
-        "requests.RequestImportDetail": {
-            "title": "RequestImportDetail",
-            "type": "object",
-            "properties": {
-                "price": {
-                    "type": "number",
-                    "format": "float"
-                },
-                "product_id": {
-                    "type": "integer",
-                    "format": "int64"
-                },
-                "quantity": {
-                    "type": "integer",
-                    "format": "int64"
-                }
-            }
-        },
         "requests.RequestLogin": {
             "title": "RequestLogin",
             "type": "object",
@@ -1785,10 +1275,6 @@
                     "items": {
                         "$ref": "#/definitions/requests.RequestOrderDetail"
                     }
-                },
-                "lastUpdate": {
-                    "type": "integer",
-                    "format": "int64"
                 },
                 "name": {
                     "type": "string"
@@ -1853,24 +1339,13 @@
                 }
             }
         },
-        "requests.RequestSale": {
-            "title": "RequestSale",
-            "type": "object",
-            "properties": {
-                "detail": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/requests.RequestDetailSale"
-                    }
-                }
-            }
-        },
         "requests.RequestUpdateStatus": {
             "title": "RequestUpdateStatus",
             "type": "object",
             "properties": {
                 "id_user": {
-                    "type": "string"
+                    "type": "integer",
+                    "format": "int64"
                 },
                 "status": {
                     "type": "boolean"
@@ -1888,24 +1363,6 @@
                     "type": "string"
                 },
                 "image": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone": {
-                    "type": "string"
-                }
-            }
-        },
-        "requests.RequestVendor": {
-            "title": "RequestVendor",
-            "type": "object",
-            "properties": {
-                "address": {
-                    "type": "string"
-                },
-                "email": {
                     "type": "string"
                 },
                 "name": {
@@ -1934,7 +1391,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/997.0xc000679da0.false"
+                    "$ref": "#/definitions/1124.0xc0005e4030.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"
@@ -1959,7 +1416,7 @@
             "type": "object",
             "properties": {
                 "data": {
-                    "$ref": "#/definitions/871.0xc000679d10.false"
+                    "$ref": "#/definitions/998.0xc0005b3f80.false"
                 },
                 "error": {
                     "$ref": "#/definitions/responses.Err"

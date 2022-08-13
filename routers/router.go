@@ -30,8 +30,7 @@ func init() {
 		beego.NSNamespace("/order",
 			beego.NSInclude(
 				&controllers.OrderController{},
-			),
-		),
+			),		),
 		beego.NSNamespace("/user",
 			beego.NSInclude(
 				&controllers.UserController{},
@@ -42,34 +41,9 @@ func init() {
 				&controllers.AdminController{},
 			),
 		),
-		beego.NSNamespace("/comment",
-			beego.NSInclude(
-				&controllers.CommentController{},
-			),
-		),
 		beego.NSNamespace("/rate",
 			beego.NSInclude(
 				&controllers.RateController{},
-			),
-		),
-		beego.NSNamespace("/discount",
-			beego.NSInclude(
-				&controllers.DiscountController{},
-			),
-		),
-		beego.NSNamespace("/vendor",
-			beego.NSInclude(
-				&controllers.VendorController{},
-			),
-		),
-		beego.NSNamespace("/import",
-			beego.NSInclude(
-				&controllers.ImportController{},
-			),
-		),
-		beego.NSNamespace("/sale",
-			beego.NSInclude(
-				&controllers.SaleController{},
 			),
 		),
 		beego.NSNamespace("/statistic",

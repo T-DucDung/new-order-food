@@ -91,7 +91,7 @@ func (this *AccountController) Register() {
 func (this *AccountController) CheckExistToken() {
 	defer this.ServeJSON()
 	token := this.GetString("token")
-	log.Println("token : ", token)
+	//log.Println("token : ", token)
 	r, err := services.CheckExistToken(token)
 	if err != nil {
 		log.Println("controllers/account_controller.go:97 ", err)

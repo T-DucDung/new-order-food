@@ -1,26 +1,44 @@
 package models
 
 import (
+	"context"
 	"errors"
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 	"new-order-food/hash"
-	"new-order-food/queries"
 	"new-order-food/requests"
 	"strconv"
+	"sync"
 	"time"
 )
 
+var (
+	onceGetAccount sync.Once
+	aDoc           *mongo.Collection
+)
+
+//go:generate easytags $GOFILE json,xml,bson
+
 type Account struct {
-	Username string `json:"username" xml:"username"`
-	Pass     string `json:"pass" xml:"pass"`
-	Id       int    `json:"id" xml:"id"`
-	Type     string `json:"type" xml:"type"`
-	Status   bool   `json:"status" xnl:"status"`
+	Username string `json:"username" xml:"username" bson:"username"`
+	Pass     string `json:"pass" xml:"pass" bson:"pass"`
+	Id       int    `json:"id" xml:"id" bson:"id"`
+	Type     string `json:"type" xml:"type" bson:"type"`
+	Status   bool   `json:"status" xml:"status" bson:"status"`
+}
+
+func getAccountDocument() *mongo.Collection {
+	onceGetAccount.Do(func() {
+		aDoc = db.Database("neworderfood").Collection("Account")
+	})
+	return aDoc
 }
 
 func (this *Account) Login(req requests.RequestLogin) (string, string, error) {
 	a := Account{}
-	err = db.QueryRow(queries.GetAccount(req.Username)).Scan(&a.Username, &a.Pass, &a.Id, &a.Type, &a.Status)
+	filter := bson.D{{"username", req.Username}}
+	err = getAccountDocument().FindOne(context.TODO(), filter).Decode(&a)
 	if err != nil {
 		return "", "", err
 	}
@@ -28,7 +46,7 @@ func (this *Account) Login(req requests.RequestLogin) (string, string, error) {
 		return "", "", errors.New("account is deactive")
 	}
 	hashP, _ := hash.Hash(req.Pass)
-	log.Println(hashP)
+	//log.Println(hashP)
 	if hashP == a.Pass {
 		data := "hehe" + a.Pass + strconv.FormatInt(time.Now().Unix(), 10)
 		token, err := hash.Hash(data)
@@ -48,25 +66,37 @@ func (this *Account) Login(req requests.RequestLogin) (string, string, error) {
 }
 
 func (this *Account) Register(req requests.RequestRegister) error {
-	data, err := db.Prepare("INSERT INTO Users(Name, Phone, Email, Image, Gender, Rank) VALUES(?, ?, ?, ?, ?, ?);")
+	id, err := getCurrentUserDocument()
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/account.go:70")
 		return err
 	}
-	val, err := data.Exec(req.Name, req.Phone, req.Email, req.Image, req.Gender, "1")
+	_, err = getUserDocument().InsertOne(context.TODO(), User{
+		Id:     id,
+		Name:   req.Name,
+		Phone:  req.Phone,
+		Email:  req.Email,
+		Image:  req.Image,
+		Gender: req.Gender,
+		Rank:   1,
+	})
 	if err != nil {
+		log.Println(err.Error(), "err.Error() models/account.go:83")
 		return err
 	}
 
-	id, err := val.LastInsertId()
+	hashP, _ := hash.Hash(req.Pass)
+	_, err = getUserDocument().InsertOne(context.TODO(), Account{
+		Username: req.Username,
+		Pass:     hashP,
+		Id:       id,
+		Type:     "user",
+		Status:   true,
+	})
+	if err != nil {
+		log.Println(err.Error(), "err.Error() models/account.go:103")
+		return err
+	}
 
-	data, err = db.Prepare("INSERT INTO Account(Username, Pass, Id, type, status) VALUES(?, ?, ?, ?, ?);")
-	if err != nil {
-		return err
-	}
-	hashP , _ := hash.Hash(req.Pass)
-	_, err = data.Exec(req.Username, hashP, id, "user", "1")
-	if err != nil {
-		return err
-	}
 	return nil
 }

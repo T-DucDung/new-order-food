@@ -1,7 +1,6 @@
 package requests
 
 type RequestOrder struct {
-	lastUpdate int64
 	Number     string               `json:"number" xml:"number"`
 	Address    string               `json:"address" xml:"address"`
 	Name       string               `json:"name" xml:"name"`
